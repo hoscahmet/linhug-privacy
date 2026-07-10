@@ -24,6 +24,10 @@
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
 
+      #features, #videos, #download {
+        scroll-margin-top: 92px;
+      }
+
       body {
         margin: 0;
         min-height: 100%;
@@ -411,7 +415,7 @@
           <div class="kicker">Live multiplayer word battles</div>
           <h1>Think fast.<span class="gradient">Keep the chain alive.</span></h1>
           <p class="hero-copy">Create a room, invite your friends, and turn the last letter into your next winning word. LinHug makes every round quick, social, and wonderfully unpredictable.</p>
-          <div class="store-buttons" id="download">
+          <div class="store-buttons">
             <a class="store-button" href="https://apps.apple.com/app/id6788700503" target="_blank" rel="noopener noreferrer" aria-label="Download LinHug on the App Store">
               <img src="./app-store-badge.png" alt="Download on the App Store" />
             </a>
@@ -491,7 +495,7 @@
         </div>
       </section>
 
-      <section class="shell cta" aria-labelledby="cta-title">
+      <section class="shell cta" id="download" aria-labelledby="cta-title">
         <h2 id="cta-title">Your next word starts here.</h2>
         <p>Bring your friends together and see how long you can keep the chain alive.</p>
         <div class="store-buttons">
