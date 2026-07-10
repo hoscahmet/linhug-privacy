@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy | LinHug</title>
+    <meta name="description" content="Privacy Policy for LinHug, a multiplayer word game." />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #202637;
+        --panel: #2f384d;
+        --text: #f7f8ff;
+        --muted: #b8c0d6;
+        --accent: #26c6b3;
+        --accent-soft: rgba(38, 198, 179, 0.14);
+        --border: rgba(255, 255, 255, 0.1);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { min-height: 100%; }
+
+      body {
+        min-height: 100%;
+        margin: 0;
+        overflow-x: hidden;
+        background: #070b25;
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.65;
+      }
+
+      .game-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(180deg, rgba(5, 8, 28, 0.08) 0%, rgba(16, 22, 52, 0.3) 52%, rgba(15, 20, 42, 0.56) 100%),
+          url("./game-winter-stars-bg.png") center top / cover no-repeat;
+        filter: saturate(1.14) brightness(1.12);
+      }
+
+      .game-backdrop::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 18% 12%, rgba(123, 97, 255, 0.16), transparent 30rem),
+          radial-gradient(circle at 82% 28%, rgba(38, 198, 179, 0.1), transparent 26rem);
+      }
+
+      .word-sky {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        overflow: hidden;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .flying-word {
+        position: absolute;
+        left: var(--left);
+        bottom: -5rem;
+        color: rgba(255, 255, 255, 0.18);
+        font-size: var(--size);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        text-shadow: 0 0 18px rgba(255, 255, 255, 0.08);
+        animation: float-word var(--duration) linear var(--delay) infinite;
+        will-change: transform, opacity;
+      }
+
+      .flying-word:nth-child(3n) {
+        color: rgba(145, 119, 255, 0.32);
+        text-shadow: 0 0 20px rgba(123, 97, 255, 0.16);
+      }
+      .flying-word:nth-child(4n) {
+        color: rgba(48, 218, 197, 0.27);
+        text-shadow: 0 0 20px rgba(38, 198, 179, 0.14);
+      }
+
+      @keyframes float-word {
+        0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(-8deg); }
+        12% { opacity: 1; }
+        82% { opacity: 0.8; }
+        100% { opacity: 0; transform: translate3d(var(--drift), -115vh, 0) rotate(10deg); }
+      }
+
+      main {
+        position: relative;
+        z-index: 2;
+        width: min(880px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 56px 0;
+      }
+
+      article {
+        background: rgba(34, 42, 67, 0.78);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: clamp(24px, 5vw, 48px);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 12px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      h1, h2 { line-height: 1.15; }
+      h1 { margin: 0; font-size: clamp(36px, 7vw, 64px); }
+      h2 { margin: 38px 0 12px; font-size: clamp(22px, 4vw, 30px); }
+      p { margin: 0 0 16px; color: var(--muted); }
+      ul { margin: 0 0 16px; padding-left: 22px; color: var(--muted); }
+      li { margin: 8px 0; }
+      strong, a { color: var(--text); }
+      a { text-decoration-color: var(--accent); text-underline-offset: 4px; }
+      .updated { margin: 12px 0 30px; color: var(--muted); font-size: 15px; }
+
+      .contact {
+        margin-top: 20px;
+        padding: 18px 20px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .flying-word { animation: none; display: none; }
+      }
+
+      @media (max-width: 560px) {
+        main { width: min(100% - 20px, 880px); padding: 24px 0; }
+        article { border-radius: 18px; }
+        .flying-word:nth-child(even) { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="game-backdrop" aria-hidden="true"></div>
+    <div class="word-sky" aria-hidden="true">
+      <span class="flying-word" style="--left: 5%; --size: 18px; --duration: 22s; --delay: -4s; --drift: 45px">word</span>
+      <span class="flying-word" style="--left: 14%; --size: 25px; --duration: 29s; --delay: -17s; --drift: -35px">magic</span>
+      <span class="flying-word" style="--left: 24%; --size: 16px; --duration: 24s; --delay: -9s; --drift: 30px">dream</span>
+      <span class="flying-word" style="--left: 34%; --size: 21px; --duration: 31s; --delay: -24s; --drift: -48px">ocean</span>
+      <span class="flying-word" style="--left: 44%; --size: 17px; --duration: 26s; --delay: -13s; --drift: 52px">spark</span>
+      <span class="flying-word" style="--left: 54%; --size: 27px; --duration: 34s; --delay: -7s; --drift: -30px">castle</span>
+      <span class="flying-word" style="--left: 64%; --size: 19px; --duration: 23s; --delay: -19s; --drift: 38px">echo</span>
+      <span class="flying-word" style="--left: 74%; --size: 23px; --duration: 30s; --delay: -11s; --drift: -42px">wonder</span>
+      <span class="flying-word" style="--left: 84%; --size: 16px; --duration: 25s; --delay: -21s; --drift: 34px">night</span>
+      <span class="flying-word" style="--left: 93%; --size: 20px; --duration: 28s; --delay: -2s; --drift: -55px">play</span>
+    </div>
+
+    <main>
+      <article>
+        <a class="eyebrow" href="./" style="text-decoration: none">← LinHug Home</a>
+        <h1>Privacy Policy</h1>
+        <p class="updated">Last updated: July 10, 2026</p>
+
+        <p>LinHug is a multiplayer word game. This Privacy Policy explains what information the app uses, how it is stored, and how you can contact us.</p>
+
+        <h2>Information We Collect</h2>
+        <p>LinHug does not require users to create an account or sign in.</p>
+        <p>The app may collect and store the following information to provide the game experience:</p>
+        <ul>
+          <li>Username or display name entered in the app</li>
+          <li>Selected avatar and language preference</li>
+          <li>Device-based player identifier used to keep a player connected to rooms</li>
+          <li>Room information, such as room name, invite code, player list, game mode, timer, and room status</li>
+          <li>Gameplay information, such as submitted words, scores, winner information, and leaderboard entries</li>
+          <li>Basic security and rate-limit information used to prevent abuse, spam, or excessive requests</li>
+          <li>Advertising-related technical information that may be processed by Google Mobile Ads, such as device information, advertising identifiers, IP address, app interactions, and diagnostic data</li>
+        </ul>
+        <p>We do not intentionally collect sensitive personal information such as real name, address, phone number, precise location, contacts, photos, or payment information.</p>
+
+        <h2>How We Use Information</h2>
+        <p>We use the information above to:</p>
+        <ul>
+          <li>Let players create, join, and play in game rooms</li>
+          <li>Validate words and calculate scores</li>
+          <li>Show game results and leaderboards</li>
+          <li>Keep rooms synchronized between players</li>
+          <li>Prevent spam, abuse, and excessive server usage</li>
+          <li>Display and measure advertising</li>
+          <li>Improve app stability and gameplay quality</li>
+        </ul>
+
+        <h2>Backend and Storage</h2>
+        <p>LinHug uses Convex as its backend service to store and synchronize game data. Game data may be stored on Convex servers depending on the selected deployment region.</p>
+        <p>Some room and gameplay data may be cleaned up automatically when it is no longer needed. Leaderboard and player score data may be kept for longer to support game history and rankings.</p>
+
+        <h2>Advertising</h2>
+        <p>LinHug uses Google Mobile Ads (AdMob) to display rewarded and interstitial advertisements. Google and its partners may process device information, advertising identifiers, IP address, app interactions, and diagnostic information to provide, measure, secure, and improve advertising services. Depending on consent, device settings, and applicable law, ads may be personalized or non-personalized.</p>
+        <p>You can learn more about how Google uses information from apps that use its services in <a href="https://policies.google.com/technologies/partner-sites" rel="noopener noreferrer">Google's Privacy &amp; Terms documentation</a>.</p>
+
+        <h2>Third-Party Services</h2>
+        <p>LinHug may use the following third-party services:</p>
+        <ul>
+          <li>Convex, for backend database, real-time synchronization, and server functions</li>
+          <li>Expo and EAS, for app updates, builds, and related app infrastructure</li>
+          <li>Google Mobile Ads (AdMob), for rewarded and interstitial advertising</li>
+          <li>Apple App Store and Google Play services, for distribution, ratings, and reviews</li>
+        </ul>
+        <p>These providers may process limited information needed to operate their services according to their own privacy policies.</p>
+
+        <h2>Children's Privacy</h2>
+        <p>LinHug is a general audience word game and does not knowingly collect personal information from children. If you believe a child has provided personal information through the app, please contact us so we can review and delete it when appropriate.</p>
+
+        <h2>Data Sharing</h2>
+        <p>We do not sell user data.</p>
+        <p>We may share limited data only when necessary to:</p>
+        <ul>
+          <li>Operate the app through backend, infrastructure, advertising, and distribution providers</li>
+          <li>Comply with legal obligations</li>
+          <li>Protect the safety, integrity, or security of the app</li>
+        </ul>
+
+        <h2>Data Deletion Requests</h2>
+        <p>Because LinHug does not currently use account-based login, data is mainly connected to the in-app username, device-based player identifier, rooms, and leaderboard entries.</p>
+        <p>To request deletion of related data, contact us with your in-app username and any relevant room or leaderboard information.</p>
+
+        <h2>Security</h2>
+        <p>We use reasonable technical measures to protect game data and reduce abuse, including rate limits and server-side validation. However, no internet-connected service can be guaranteed to be completely secure.</p>
+
+        <h2>Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. When we do, we will update the “Last updated” date above.</p>
+
+        <h2>Contact</h2>
+        <div class="contact">
+          <p>If you have questions, support requests, or privacy and data deletion requests, contact us at:</p>
+          <p><strong>Email:</strong> <a href="mailto:hoscahmet@gmail.com">hoscahmet@gmail.com</a></p>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>
