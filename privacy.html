@@ -38,8 +38,15 @@
         pointer-events: none;
         background:
           linear-gradient(180deg, rgba(5, 8, 28, 0.08) 0%, rgba(16, 22, 52, 0.3) 52%, rgba(15, 20, 42, 0.56) 100%),
-          url("./game-winter-stars-bg.png") center top / cover no-repeat;
-        filter: saturate(1.14) brightness(1.12);
+          #070b25;
+      }
+
+      .game-backdrop::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("./linhug-web-bg.png") center top / cover no-repeat;
+        filter: saturate(1.1) brightness(1.08);
       }
 
       .game-backdrop::after {

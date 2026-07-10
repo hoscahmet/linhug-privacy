@@ -39,8 +39,15 @@
         z-index: -3;
         background:
           linear-gradient(180deg, rgba(5, 8, 28, 0.04) 0%, rgba(8, 12, 42, 0.22) 48%, rgba(8, 12, 35, 0.74) 100%),
-          url("./game-winter-stars-bg.png") center top / cover no-repeat;
-        filter: saturate(1.16) brightness(1.08);
+          #090d2e;
+      }
+
+      .game-backdrop::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("./linhug-web-bg.png") center top / cover no-repeat;
+        filter: saturate(1.12) brightness(1.06);
       }
 
       .game-backdrop::after {
@@ -180,30 +187,20 @@
       .store-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
 
       .store-button {
-        min-width: 190px;
-        min-height: 62px;
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 12px;
-        padding: 10px 18px;
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        background: rgba(15, 20, 49, 0.84);
-        color: var(--white);
+        border-radius: 8px;
         text-decoration: none;
         box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22);
-        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+        transition: transform 180ms ease, filter 180ms ease;
       }
 
       .store-button:hover, .store-button:focus-visible {
         transform: translateY(-3px);
-        border-color: rgba(167, 147, 255, 0.55);
-        background: rgba(31, 39, 77, 0.96);
+        filter: brightness(1.12);
       }
 
-      .store-icon { font-size: 28px; line-height: 1; }
-      .store-text small { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
-      .store-text strong { display: block; margin-top: 2px; font-size: 17px; }
+      .store-button img { display: block; width: 168px; height: 56px; }
 
       .hero-visual { position: relative; min-height: 610px; display: grid; place-items: center; }
 
@@ -306,6 +303,34 @@
       .feature-card h3 { margin: 24px 0 10px; font-size: 23px; }
       .feature-card p { margin: 0; color: var(--muted); line-height: 1.7; }
 
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+        max-width: 920px;
+        margin: 0 auto;
+      }
+
+      .video-card {
+        overflow: hidden;
+        border: 1px solid rgba(167, 147, 255, 0.25);
+        border-radius: 28px;
+        background: rgba(8, 12, 38, 0.86);
+        box-shadow: 0 28px 70px rgba(3, 6, 28, 0.42);
+      }
+
+      .video-card video {
+        display: block;
+        width: 100%;
+        max-height: 620px;
+        object-fit: contain;
+        background: #070a22;
+      }
+
+      .video-copy { padding: 22px 24px 25px; }
+      .video-copy h3 { margin: 0 0 7px; font-size: 21px; }
+      .video-copy p { margin: 0; color: var(--muted); line-height: 1.6; }
+
       .cta {
         margin-bottom: 90px;
         padding: clamp(32px, 7vw, 72px);
@@ -335,6 +360,7 @@
         .hero-visual { min-height: 570px; }
         .feature-grid { grid-template-columns: 1fr; }
         .feature-card { min-height: auto; }
+        .video-grid { grid-template-columns: 1fr; max-width: 520px; }
       }
 
       @media (max-width: 600px) {
@@ -345,7 +371,7 @@
         .game-card { min-height: 495px; padding: 22px; border-radius: 30px; }
         .logo-window { height: 105px; }
         section { padding: 76px 0; }
-        .store-button { width: 100%; justify-content: center; }
+        .store-button img { width: 156px; height: 52px; }
         .footer-inner { padding: 24px 0; flex-direction: column; text-align: center; }
         .sky-word:nth-child(even) { display: none; }
       }
@@ -386,13 +412,11 @@
           <h1>Think fast.<span class="gradient">Keep the chain alive.</span></h1>
           <p class="hero-copy">Create a room, invite your friends, and turn the last letter into your next winning word. LinHug makes every round quick, social, and wonderfully unpredictable.</p>
           <div class="store-buttons" id="download">
-            <a class="store-button" href="https://apps.apple.com/app/id6788700503" rel="noopener noreferrer">
-              <span class="store-icon" aria-hidden="true">●</span>
-              <span class="store-text"><small>Download on the</small><strong>App Store</strong></span>
+            <a class="store-button" href="https://apps.apple.com/app/id6788700503" target="_blank" rel="noopener noreferrer" aria-label="Download LinHug on the App Store">
+              <img src="./app-store-badge.png" alt="Download on the App Store" />
             </a>
-            <a class="store-button" href="https://play.google.com/store/apps/details?id=com.linhug.game" rel="noopener noreferrer">
-              <span class="store-icon" aria-hidden="true">▶</span>
-              <span class="store-text"><small>Get it on</small><strong>Google Play</strong></span>
+            <a class="store-button" href="https://play.google.com/store/apps/details?id=com.linhug.game" target="_blank" rel="noopener noreferrer" aria-label="Get LinHug on Google Play">
+              <img src="./google-play-badge.png" alt="Get it on Google Play" />
             </a>
           </div>
         </div>
@@ -438,17 +462,44 @@
         </div>
       </section>
 
+      <section id="videos" aria-labelledby="videos-title">
+        <div class="shell">
+          <div class="section-heading">
+            <h2 id="videos-title">See LinHug in motion.</h2>
+            <p>Quick rounds, surprising words, and the playful energy of keeping the chain alive.</p>
+          </div>
+          <div class="video-grid">
+            <article class="video-card">
+              <video autoplay muted loop playsinline controls preload="metadata" aria-label="LinHug gameplay preview">
+                <source src="./linhug-gameplay.mp4" type="video/mp4" />
+              </video>
+              <div class="video-copy">
+                <h3>Play together</h3>
+                <p>Invite your friends and turn every round into a fast multiplayer challenge.</p>
+              </div>
+            </article>
+            <article class="video-card">
+              <video autoplay muted loop playsinline controls preload="metadata" aria-label="LinHug word chain preview">
+                <source src="./linhug-word-chain.mp4" type="video/mp4" />
+              </video>
+              <div class="video-copy">
+                <h3>Keep the words flowing</h3>
+                <p>Think quickly, follow the last letter, and keep the chain moving before time runs out.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="shell cta" aria-labelledby="cta-title">
         <h2 id="cta-title">Your next word starts here.</h2>
         <p>Bring your friends together and see how long you can keep the chain alive.</p>
         <div class="store-buttons">
-          <a class="store-button" href="https://apps.apple.com/app/id6788700503" rel="noopener noreferrer">
-            <span class="store-icon" aria-hidden="true">●</span>
-            <span class="store-text"><small>Download on the</small><strong>App Store</strong></span>
+          <a class="store-button" href="https://apps.apple.com/app/id6788700503" target="_blank" rel="noopener noreferrer" aria-label="Download LinHug on the App Store">
+            <img src="./app-store-badge.png" alt="Download on the App Store" />
           </a>
-          <a class="store-button" href="https://play.google.com/store/apps/details?id=com.linhug.game" rel="noopener noreferrer">
-            <span class="store-icon" aria-hidden="true">▶</span>
-            <span class="store-text"><small>Get it on</small><strong>Google Play</strong></span>
+          <a class="store-button" href="https://play.google.com/store/apps/details?id=com.linhug.game" target="_blank" rel="noopener noreferrer" aria-label="Get LinHug on Google Play">
+            <img src="./google-play-badge.png" alt="Get it on Google Play" />
           </a>
         </div>
       </section>
