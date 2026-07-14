@@ -6,6 +6,8 @@
     <title>LinHug | Multiplayer Word Chain Game</title>
     <meta name="description" content="Create a room, invite your friends, and keep the word chain alive in LinHug." />
     <meta name="theme-color" content="#090d2e" />
+    <link rel="icon" type="image/png" href="./linhug-app-icon.png" />
+    <link rel="apple-touch-icon" href="./linhug-app-icon.png" />
     <style>
       :root {
         color-scheme: dark;
@@ -24,7 +26,7 @@
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
 
-      #features, #videos, #download {
+      #features, #screens, #videos, #download {
         scroll-margin-top: 92px;
       }
 
@@ -116,11 +118,22 @@
       }
 
       .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
         color: var(--white);
         font-size: 24px;
         font-weight: 950;
         letter-spacing: -0.04em;
         text-decoration: none;
+      }
+
+      .brand img {
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 13px;
+        box-shadow: 0 8px 24px rgba(4, 7, 30, 0.34);
       }
 
       .brand span { color: var(--purple-light); }
@@ -206,7 +219,7 @@
 
       .store-button img { display: block; width: 168px; height: 56px; }
 
-      .hero-visual { position: relative; min-height: 610px; display: grid; place-items: center; }
+      .hero-visual { position: relative; min-height: 650px; display: grid; place-items: center; }
 
       .orbit {
         position: absolute;
@@ -231,58 +244,53 @@
       .orbit::after { right: 3%; bottom: 34%; background: var(--green); box-shadow: 0 0 22px var(--green); }
       @keyframes spin { to { transform: rotate(360deg); } }
 
-      .game-card {
+      .hero-reel {
         position: relative;
-        width: min(410px, 90vw);
-        min-height: 525px;
+        width: min(360px, 86vw);
         overflow: hidden;
-        padding: 28px;
         border: 1px solid rgba(255, 255, 255, 0.16);
-        border-radius: 38px;
-        background: linear-gradient(160deg, rgba(38, 46, 82, 0.96), rgba(20, 26, 57, 0.94));
+        border-radius: 42px;
+        background: #14162e;
         box-shadow: 0 40px 100px rgba(4, 7, 30, 0.65), 0 0 70px rgba(123, 97, 255, 0.2);
         transform: rotate(2deg);
         animation: card-float 5s ease-in-out infinite;
       }
 
+      .hero-reel video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 9 / 16;
+        object-fit: cover;
+      }
+
+      .hero-reel::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        height: 150px;
+        background: linear-gradient(180deg, transparent, rgba(20, 22, 46, 0.96) 78%, #14162e);
+        pointer-events: none;
+      }
+
+      .hero-reel-badge {
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+        z-index: 2;
+        padding: 9px 13px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        background: rgba(9, 13, 46, 0.76);
+        color: var(--white);
+        font-size: 12px;
+        font-weight: 850;
+        backdrop-filter: blur(14px);
+      }
+
       @keyframes card-float { 50% { transform: rotate(-1deg) translateY(-12px); } }
-
-      .logo-window { height: 120px; overflow: hidden; margin: 4px 0 8px; }
-      .logo-window img { display: block; width: 100%; transform: translateY(-4px); }
-
-      .live-row { display: flex; justify-content: space-between; align-items: center; margin: 18px 0; }
-      .live-row strong { font-size: 15px; }
-      .timer { padding: 7px 10px; border-radius: 10px; background: rgba(255, 212, 105, 0.13); color: var(--yellow); font-weight: 900; }
-
-      .chain {
-        display: grid;
-        gap: 10px;
-        padding: 18px;
-        border: 1px solid rgba(255, 255, 255, 0.09);
-        border-radius: 22px;
-        background: rgba(6, 10, 35, 0.42);
-      }
-
-      .chain-word {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 54px;
-        padding: 0 16px;
-        border-radius: 15px;
-        background: rgba(255, 255, 255, 0.07);
-        font-weight: 900;
-        animation: word-glow 3s ease-in-out infinite;
-      }
-
-      .chain-word:nth-child(2) { animation-delay: -2s; }
-      .chain-word:nth-child(3) { animation-delay: -1s; }
-      .chain-word span { color: var(--green); }
-      @keyframes word-glow { 50% { background: rgba(123, 97, 255, 0.18); transform: translateX(4px); } }
-
-      .score-row { display: flex; justify-content: space-between; gap: 10px; margin-top: 16px; }
-      .score-pill { flex: 1; padding: 13px; border-radius: 14px; background: rgba(43, 197, 176, 0.1); color: #63e5d3; text-align: center; font-size: 12px; font-weight: 900; }
-      .score-pill:last-child { background: rgba(255, 212, 105, 0.1); color: var(--yellow); }
 
       section { padding: 100px 0; }
       .section-heading { max-width: 700px; margin: 0 auto 48px; text-align: center; }
@@ -306,6 +314,118 @@
       .feature-card:nth-child(3) .feature-icon { background: rgba(255, 212, 105, 0.14); }
       .feature-card h3 { margin: 24px 0 10px; font-size: 23px; }
       .feature-card p { margin: 0; color: var(--muted); line-height: 1.7; }
+
+      .screen-showcase {
+        width: min(1440px, 100%);
+        margin: 0 auto;
+      }
+
+      .screen-carousel {
+        position: relative;
+        isolation: isolate;
+      }
+
+      .screen-track {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(260px, 22vw);
+        gap: 30px;
+        overflow-x: auto;
+        padding: 52px max(76px, calc((100vw - 1160px) / 2)) 70px;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      .screen-track::-webkit-scrollbar {
+        display: none;
+      }
+
+      .screen-track.is-dragging {
+        cursor: grabbing;
+        scroll-behavior: auto;
+        scroll-snap-type: none;
+      }
+
+      .screen-card {
+        position: relative;
+        overflow: hidden;
+        scroll-snap-align: center;
+        border: 1px solid rgba(167, 147, 255, 0.28);
+        border-radius: 30px;
+        background: rgba(8, 12, 38, 0.86);
+        box-shadow: 0 24px 70px rgba(3, 6, 28, 0.45);
+        transform: translateY(var(--lift, 0)) rotate(var(--tilt, 0deg));
+        animation: screen-float 4.8s ease-in-out var(--delay, 0s) infinite alternate;
+        transition: border-color 180ms ease, box-shadow 180ms ease;
+      }
+
+      .screen-card:hover {
+        animation-play-state: paused;
+        border-color: rgba(71, 217, 196, 0.62);
+        box-shadow: 0 32px 90px rgba(3, 6, 28, 0.62), 0 0 34px rgba(71, 217, 196, 0.18);
+      }
+
+      .screen-card:nth-child(1) { --tilt: -4deg; --lift: 12px; --delay: -1.2s; }
+      .screen-card:nth-child(2) { --tilt: 3deg; --lift: -16px; --delay: -3.7s; }
+      .screen-card:nth-child(3) { --tilt: -2deg; --lift: 20px; --delay: -2.1s; }
+      .screen-card:nth-child(4) { --tilt: 4deg; --lift: -10px; --delay: -4.3s; }
+      .screen-card:nth-child(5) { --tilt: -3deg; --lift: 16px; --delay: -2.8s; }
+      .screen-card:nth-child(6) { --tilt: 2deg; --lift: -14px; --delay: -0.6s; }
+      .screen-card:nth-child(7) { --tilt: -4deg; --lift: 10px; --delay: -3.2s; }
+
+      @keyframes screen-float {
+        to { transform: translateY(calc(var(--lift, 0px) - 14px)) rotate(var(--tilt, 0deg)); }
+      }
+
+      .screen-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .screen-arrow {
+        position: absolute;
+        top: 50%;
+        z-index: 4;
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 50%;
+        background: rgba(17, 22, 58, 0.9);
+        color: var(--white);
+        font: inherit;
+        font-size: 31px;
+        line-height: 1;
+        cursor: pointer;
+        box-shadow: 0 16px 46px rgba(3, 6, 28, 0.55), 0 0 26px rgba(123, 97, 255, 0.22);
+        backdrop-filter: blur(18px);
+        transform: translateY(-50%);
+        transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+      }
+
+      .screen-arrow:hover,
+      .screen-arrow:focus-visible {
+        background: rgba(123, 97, 255, 0.92);
+        border-color: rgba(255, 255, 255, 0.65);
+        transform: translateY(-50%) scale(1.08);
+      }
+
+      .screen-arrow-left { left: clamp(10px, 3vw, 46px); }
+      .screen-arrow-right { right: clamp(10px, 3vw, 46px); }
+
+      .swipe-note {
+        display: none;
+        margin: -18px 0 0;
+        color: var(--muted);
+        text-align: center;
+        font-size: 13px;
+      }
 
       .video-grid {
         display: grid;
@@ -346,6 +466,14 @@
       }
       .cta p { max-width: 600px; margin: 16px auto 28px; color: var(--muted); font-size: 18px; }
       .cta .store-buttons { justify-content: center; }
+      .cta-icon {
+        width: 94px;
+        height: 94px;
+        margin: 0 auto 24px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 25px;
+        box-shadow: 0 18px 50px rgba(4, 7, 30, 0.42);
+      }
 
       footer {
         border-top: 1px solid rgba(255, 255, 255, 0.09);
@@ -361,7 +489,7 @@
         .hero { grid-template-columns: 1fr; text-align: center; padding-top: 64px; }
         .hero-copy { margin-left: auto; margin-right: auto; }
         .store-buttons { justify-content: center; }
-        .hero-visual { min-height: 570px; }
+        .hero-visual { min-height: 650px; }
         .feature-grid { grid-template-columns: 1fr; }
         .feature-card { min-height: auto; }
         .video-grid { grid-template-columns: 1fr; max-width: 520px; }
@@ -371,10 +499,14 @@
         .shell { width: min(100% - 24px, 1160px); }
         .nav-links a:not(.download-link) { display: none; }
         .hero { min-height: auto; padding: 52px 0 72px; }
-        .hero-visual { min-height: 520px; }
-        .game-card { min-height: 495px; padding: 22px; border-radius: 30px; }
-        .logo-window { height: 105px; }
+        .hero-visual { min-height: 590px; }
+        .hero-reel { width: min(330px, 88vw); border-radius: 34px; }
         section { padding: 76px 0; }
+        .screen-track { grid-auto-columns: minmax(250px, 78vw); gap: 24px; padding: 46px 48px 64px; }
+        .screen-arrow { width: 46px; height: 46px; font-size: 25px; }
+        .screen-arrow-left { left: 5px; }
+        .screen-arrow-right { right: 5px; }
+        .swipe-note { display: block; }
         .store-button img { width: 156px; height: 52px; }
         .footer-inner { padding: 24px 0; flex-direction: column; text-align: center; }
         .sky-word:nth-child(even) { display: none; }
@@ -382,7 +514,7 @@
 
       @media (prefers-reduced-motion: reduce) {
         html { scroll-behavior: auto; }
-        .sky-word, .orbit, .game-card, .kicker::before, .chain-word { animation: none; }
+        .sky-word, .orbit, .hero-reel, .kicker::before, .screen-card { animation: none; }
       }
     </style>
   </head>
@@ -401,9 +533,13 @@
 
     <header>
       <nav class="shell" aria-label="Main navigation">
-        <a class="brand" href="./" aria-label="LinHug home">Lin<span>Hug</span></a>
+        <a class="brand" href="./" aria-label="LinHug home">
+          <img src="./linhug-app-icon.png" alt="" />
+          Lin<span>Hug</span>
+        </a>
         <div class="nav-links">
           <a href="#features">How it works</a>
+          <a href="#screens">Preview</a>
           <a class="download-link" href="#download">Download</a>
         </div>
       </nav>
@@ -425,17 +561,13 @@
           </div>
         </div>
 
-        <div class="hero-visual" aria-label="Animated LinHug game preview">
+        <div class="hero-visual" aria-label="LinHug mascot logo animation">
           <div class="orbit" aria-hidden="true"></div>
-          <div class="game-card">
-            <div class="logo-window"><img src="./linhug-logo.png" alt="LinHug Word Chain Game" /></div>
-            <div class="live-row"><strong>Word Flow</strong><span class="timer">00:14</span></div>
-            <div class="chain">
-              <div class="chain-word"><strong>magic</strong><span>+5</span></div>
-              <div class="chain-word"><strong>castle</strong><span>+6</span></div>
-              <div class="chain-word"><strong>echo</strong><span>+4</span></div>
-            </div>
-            <div class="score-row"><div class="score-pill">3 players</div><div class="score-pill">15 points</div></div>
+          <div class="hero-reel">
+            <video autoplay muted loop playsinline preload="metadata" poster="./linhug-app-icon.png" aria-label="LinHug mascot completing the logo">
+              <source src="./linhug-logo-reveal.mp4" type="video/mp4" />
+            </video>
+            <span class="hero-reel-badge">Meet LinHug</span>
           </div>
         </div>
       </div>
@@ -463,6 +595,29 @@
               <p>Build points with sharper words, customize your avatar and background, and come back for another round.</p>
             </article>
           </div>
+        </div>
+      </section>
+
+      <section id="screens" aria-labelledby="screens-title">
+        <div class="section-heading shell">
+          <h2 id="screens-title">Your word adventure, at a glance.</h2>
+          <p>Find a room, make the rules, learn the chain, and race your friends to the top of the scoreboard.</p>
+        </div>
+        <div class="screen-showcase">
+          <div class="screen-carousel">
+            <button class="screen-arrow screen-arrow-left" type="button" aria-label="Show previous app screenshot">‹</button>
+            <div class="screen-track" aria-label="LinHug app screenshots" tabindex="0">
+              <article class="screen-card"><img src="./store-01-your-word-adventure.webp" alt="LinHug home screen — Your Word Adventure Starts Here" loading="lazy" /></article>
+              <article class="screen-card"><img src="./store-02-find-your-room.webp" alt="LinHug rooms screen — Find Friends and Join a Room" loading="lazy" /></article>
+              <article class="screen-card"><img src="./store-03-make-the-rules.webp" alt="LinHug create room screen — Make the Rules" loading="lazy" /></article>
+              <article class="screen-card"><img src="./store-04-easy-to-learn.webp" alt="LinHug how to play screen — Easy to Learn" loading="lazy" /></article>
+              <article class="screen-card"><img src="./store-05-keep-words-moving.webp" alt="LinHug gameplay screen — Keep Words Moving" loading="lazy" /></article>
+              <article class="screen-card"><img src="./store-06-fair-turns-fast-fun.webp" alt="LinHug turn order screen — Fair Turns, Fast Fun" loading="lazy" /></article>
+              <article class="screen-card"><img src="./store-07-climb-the-scoreboard.webp" alt="LinHug scoreboard screen — Climb the Scoreboard" loading="lazy" /></article>
+            </div>
+            <button class="screen-arrow screen-arrow-right" type="button" aria-label="Show next app screenshot">›</button>
+          </div>
+          <p class="swipe-note" aria-hidden="true">Swipe or use the arrows to explore</p>
         </div>
       </section>
 
@@ -514,6 +669,7 @@
       </section>
 
       <section class="shell cta" id="download" aria-labelledby="cta-title">
+        <img class="cta-icon" src="./linhug-app-icon.png" alt="LinHug app icon" />
         <h2 id="cta-title">Your next word starts here.</h2>
         <p>Bring your friends together and see how long you can keep the chain alive.</p>
         <div class="store-buttons">
@@ -536,5 +692,80 @@
         </div>
       </div>
     </footer>
+    <script>
+      const screenTrack = document.querySelector(".screen-track");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let autoScrollTimer;
+      let isDragging = false;
+      let dragStartX = 0;
+      let dragStartScroll = 0;
+
+      const screenStep = () => {
+        const card = screenTrack.querySelector(".screen-card");
+        return card ? card.getBoundingClientRect().width + 30 : 320;
+      };
+
+      const moveScreens = (direction) => {
+        const maxScroll = screenTrack.scrollWidth - screenTrack.clientWidth;
+
+        if (direction > 0 && screenTrack.scrollLeft >= maxScroll - screenStep() * 0.5) {
+          screenTrack.scrollTo({ left: 0, behavior: "smooth" });
+        } else if (direction < 0 && screenTrack.scrollLeft <= 8) {
+          screenTrack.scrollTo({ left: maxScroll, behavior: "smooth" });
+        } else {
+          screenTrack.scrollBy({ left: screenStep() * direction, behavior: "smooth" });
+        }
+      };
+
+      const stopAutoScroll = () => window.clearInterval(autoScrollTimer);
+      const startAutoScroll = () => {
+        stopAutoScroll();
+        if (!prefersReducedMotion.matches) {
+          autoScrollTimer = window.setInterval(() => moveScreens(1), 2800);
+        }
+      };
+
+      document.querySelector(".screen-arrow-left").addEventListener("click", () => {
+        moveScreens(-1);
+      });
+
+      document.querySelector(".screen-arrow-right").addEventListener("click", () => {
+        moveScreens(1);
+      });
+
+      screenTrack.addEventListener("mouseenter", stopAutoScroll);
+      screenTrack.addEventListener("mouseleave", () => {
+        if (!isDragging) startAutoScroll();
+      });
+
+      screenTrack.addEventListener("mousedown", (event) => {
+        isDragging = true;
+        dragStartX = event.clientX;
+        dragStartScroll = screenTrack.scrollLeft;
+        screenTrack.classList.add("is-dragging");
+        stopAutoScroll();
+        event.preventDefault();
+      });
+
+      window.addEventListener("mousemove", (event) => {
+        if (!isDragging) return;
+        screenTrack.scrollLeft = dragStartScroll - (event.clientX - dragStartX) * 1.2;
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (!isDragging) return;
+        isDragging = false;
+        screenTrack.classList.remove("is-dragging");
+        startAutoScroll();
+      });
+
+      screenTrack.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") moveScreens(-1);
+        if (event.key === "ArrowRight") moveScreens(1);
+      });
+
+      prefersReducedMotion.addEventListener("change", startAutoScroll);
+      startAutoScroll();
+    </script>
   </body>
 </html>
