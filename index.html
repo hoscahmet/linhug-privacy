@@ -481,10 +481,20 @@
         background: rgba(7, 10, 34, 0.82);
         backdrop-filter: blur(16px);
       }
-      .footer-inner { min-height: 92px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: var(--muted); font-size: 14px; }
+      .footer-inner { padding: 28px 0; color: var(--muted); font-size: 14px; }
+      .footer-main { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
       .footer-links { display: flex; gap: 22px; }
       .footer-links a { color: var(--muted); text-decoration: none; }
       .footer-links a:hover, .footer-links a:focus-visible { color: var(--white); }
+      .legal-notice {
+        max-width: 980px;
+        margin: 20px 0 0;
+        padding-top: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(188, 197, 223, 0.78);
+        font-size: 12px;
+        line-height: 1.7;
+      }
 
       @media (max-width: 900px) {
         .hero { grid-template-columns: 1fr; text-align: center; padding-top: 64px; }
@@ -509,7 +519,8 @@
         .screen-arrow-right { right: 5px; }
         .swipe-note { display: block; }
         .store-button img { width: 156px; height: 52px; }
-        .footer-inner { padding: 24px 0; flex-direction: column; text-align: center; }
+        .footer-main { flex-direction: column; text-align: center; }
+        .legal-notice { text-align: center; }
         .sky-word:nth-child(even) { display: none; }
       }
 
@@ -686,11 +697,15 @@
 
     <footer>
       <div class="shell footer-inner">
-        <span>© 2026 LinHug. Keep the words moving.</span>
-        <div class="footer-links">
-          <a href="./privacy.html">Privacy Policy</a>
-          <a href="mailto:hoscahmet@gmail.com">Support</a>
+        <div class="footer-main">
+          <span>© 2026 LinHug. All rights reserved.</span>
+          <div class="footer-links">
+            <a href="./privacy.html">Privacy Policy</a>
+            <a href="./terms.html">Terms of Use</a>
+            <a href="mailto:hoscahmet@gmail.com">Support</a>
+          </div>
         </div>
+        <p class="legal-notice">The LinHug name, logo, characters, graphics and audio, interface designs, text, and software are protected under applicable intellectual property laws. These materials may not be copied, adapted, distributed, extracted, or used commercially without prior written permission.</p>
       </div>
     </footer>
     <script>

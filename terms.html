@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Terms of Use | LinHug</title>
+    <meta name="description" content="Terms of Use and intellectual property notice for LinHug." />
+    <meta name="theme-color" content="#090d2e" />
+    <link rel="icon" type="image/png" href="./linhug-app-icon.png" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --text: #f7f8ff;
+        --muted: #b8c0d6;
+        --accent: #26c6b3;
+        --accent-soft: rgba(38, 198, 179, 0.14);
+        --purple: #9c83ff;
+        --border: rgba(255, 255, 255, 0.1);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: hidden;
+        background: #070b25;
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.65;
+      }
+
+      .game-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(180deg, rgba(5, 8, 28, 0.08), rgba(16, 22, 52, 0.34) 52%, rgba(15, 20, 42, 0.62)),
+          #070b25;
+      }
+
+      .game-backdrop::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("./linhug-web-bg.png") center top / cover no-repeat;
+        filter: saturate(1.1) brightness(1.08);
+      }
+
+      .game-backdrop::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 18% 12%, rgba(123, 97, 255, 0.18), transparent 30rem),
+          radial-gradient(circle at 82% 28%, rgba(38, 198, 179, 0.1), transparent 26rem);
+      }
+
+      .word-sky {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        overflow: hidden;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .flying-word {
+        position: absolute;
+        left: var(--left);
+        bottom: -5rem;
+        color: rgba(255, 255, 255, 0.18);
+        font-size: var(--size);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        animation: float-word var(--duration) linear var(--delay) infinite;
+      }
+
+      .flying-word:nth-child(3n) { color: rgba(145, 119, 255, 0.32); }
+      .flying-word:nth-child(4n) { color: rgba(48, 218, 197, 0.27); }
+
+      @keyframes float-word {
+        0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(-8deg); }
+        12% { opacity: 1; }
+        82% { opacity: 0.8; }
+        100% { opacity: 0; transform: translate3d(var(--drift), -115vh, 0) rotate(10deg); }
+      }
+
+      main {
+        position: relative;
+        z-index: 2;
+        width: min(880px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 56px 0;
+      }
+
+      article {
+        padding: clamp(24px, 5vw, 48px);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: rgba(34, 42, 67, 0.8);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 12px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      h1, h2 { line-height: 1.15; }
+      h1 { margin: 0; font-size: clamp(36px, 7vw, 64px); }
+      h2 { margin: 38px 0 12px; font-size: clamp(22px, 4vw, 30px); }
+      p { margin: 0 0 16px; color: var(--muted); }
+      ul { margin: 0 0 16px; padding-left: 22px; color: var(--muted); }
+      li { margin: 8px 0; }
+      strong, a { color: var(--text); }
+      a { text-decoration-color: var(--accent); text-underline-offset: 4px; }
+      .updated { margin: 12px 0 30px; font-size: 15px; }
+
+      .notice {
+        margin: 22px 0;
+        padding: 20px 22px;
+        border: 1px solid rgba(156, 131, 255, 0.34);
+        border-radius: 18px;
+        background: rgba(123, 97, 255, 0.1);
+      }
+
+      .notice p:last-child { margin-bottom: 0; }
+
+      .contact {
+        margin-top: 20px;
+        padding: 18px 20px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .page-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 28px;
+        padding-top: 22px;
+        border-top: 1px solid var(--border);
+        font-size: 14px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .flying-word { display: none; animation: none; }
+      }
+
+      @media (max-width: 560px) {
+        main { width: min(100% - 20px, 880px); padding: 24px 0; }
+        article { border-radius: 18px; }
+        .flying-word:nth-child(even) { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="game-backdrop" aria-hidden="true"></div>
+    <div class="word-sky" aria-hidden="true">
+      <span class="flying-word" style="--left: 5%; --size: 18px; --duration: 22s; --delay: -4s; --drift: 45px">rights</span>
+      <span class="flying-word" style="--left: 17%; --size: 25px; --duration: 29s; --delay: -17s; --drift: -35px">create</span>
+      <span class="flying-word" style="--left: 31%; --size: 17px; --duration: 24s; --delay: -9s; --drift: 30px">play</span>
+      <span class="flying-word" style="--left: 47%; --size: 21px; --duration: 31s; --delay: -24s; --drift: -48px">protect</span>
+      <span class="flying-word" style="--left: 63%; --size: 18px; --duration: 26s; --delay: -13s; --drift: 52px">original</span>
+      <span class="flying-word" style="--left: 78%; --size: 24px; --duration: 34s; --delay: -7s; --drift: -30px">LinHug</span>
+      <span class="flying-word" style="--left: 92%; --size: 19px; --duration: 23s; --delay: -19s; --drift: 38px">word</span>
+    </div>
+
+    <main>
+      <article>
+        <a class="eyebrow" href="./">← LinHug Home</a>
+        <h1>Terms of Use</h1>
+        <p class="updated">Last updated: July 23, 2026</p>
+
+        <p>These Terms of Use apply to the LinHug mobile application, website, and related services. By accessing or using LinHug, you agree to follow these terms.</p>
+
+        <h2>Limited Permission to Use LinHug</h2>
+        <p>LinHug grants you a limited, personal, non-exclusive, non-transferable, and revocable permission to use the app and website for their intended entertainment purposes. No ownership or intellectual property rights are transferred to you.</p>
+
+        <h2>Intellectual Property</h2>
+        <div class="notice">
+          <p><strong>Access to the app or website does not transfer any intellectual property right belonging to LinHug.</strong></p>
+          <p>Except where permitted by applicable law, LinHug source code, visual assets, characters, text, audio, data structures, and original interface elements may not be copied, reproduced, extracted, adapted, distributed, reverse engineered, or used in another product without prior written permission.</p>
+        </div>
+        <p>The LinHug name, logo, characters, graphics, sounds, music, written content, software, and original visual presentation are owned by LinHug or used under an applicable licence and are protected under relevant intellectual property laws.</p>
+        <p>These terms do not claim ownership over the general idea of a word game or over game mechanics as abstract ideas. They protect LinHug’s original code, assets, content, characters, branding, and specific expression and presentation.</p>
+
+        <h2>Prohibited Uses</h2>
+        <p>You may not:</p>
+        <ul>
+          <li>Copy, extract, republish, sell, sublicense, or commercially exploit LinHug assets or content</li>
+          <li>Use the LinHug name, logo, characters, or other brand elements in a way that suggests approval, sponsorship, or affiliation</li>
+          <li>Reverse engineer, decompile, or attempt to obtain source code except where applicable law expressly permits it</li>
+          <li>Remove or alter copyright, attribution, trademark, or proprietary notices</li>
+          <li>Use automated tools to disrupt, overload, scrape, or interfere with the app, website, servers, or other players</li>
+          <li>Upload unlawful, infringing, abusive, deceptive, or harmful content</li>
+        </ul>
+
+        <h2>User-Provided Content</h2>
+        <p>You remain responsible for usernames, words, room names, and other content you submit. You grant LinHug the limited permission necessary to process, display, transmit, moderate, and store that content for operating and securing the game.</p>
+
+        <h2>Third-Party Services and Content</h2>
+        <p>LinHug may rely on third-party platforms, stores, infrastructure, advertising services, or licensed assets. Their own terms and policies may also apply. Third-party names and materials remain the property of their respective owners.</p>
+
+        <h2>Availability and Changes</h2>
+        <p>Features, content, game rules, availability, and these terms may change as LinHug develops. We may restrict access where reasonably necessary to protect users, enforce these terms, maintain security, or comply with legal obligations.</p>
+
+        <h2>No Guarantee</h2>
+        <p>LinHug is provided on an “as available” basis to the extent permitted by law. We do not guarantee uninterrupted availability, error-free operation, or preservation of every room, score, or gameplay record.</p>
+
+        <h2>Reporting Infringement</h2>
+        <p>If you believe LinHug content infringes your rights, or if LinHug’s protected content is being copied or misused, please send enough information to identify the material, the relevant right, and how we can contact you.</p>
+        <div class="contact">
+          <p><strong>Email:</strong> <a href="mailto:hoscahmet@gmail.com">hoscahmet@gmail.com</a></p>
+        </div>
+
+        <div class="page-links">
+          <a href="./privacy.html">Privacy Policy</a>
+          <a href="./">LinHug Home</a>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>
