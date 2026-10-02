@@ -1,0 +1,26 @@
+<!doctype html>
+<!-- Source for assets/media/og-{en,tr}.png. Regenerate with scripts/make-og.sh -->
+<html><head><meta charset="utf-8"><style>
+  html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+  body{font-family:-apple-system,"SF Pro Display","Helvetica Neue",sans-serif;color:#f8f8ff;
+    background:linear-gradient(90deg,rgba(9,13,46,.92) 0%,rgba(9,13,46,.7) 55%,rgba(9,13,46,.15) 100%),url(../assets/media/bg-night.webp) center/cover}
+  .wrap{position:absolute;inset:0;padding:70px 76px;display:flex;flex-direction:column;justify-content:center}
+  .brand{display:flex;align-items:center;gap:18px;font-size:44px;font-weight:900;letter-spacing:-.04em}
+  .brand img{width:84px;height:84px;border-radius:22px;border:2px solid rgba(255,255,255,.2)}
+  .brand span{color:#a793ff}
+  h1{margin:34px 0 0;font-size:84px;line-height:.98;letter-spacing:-.055em;max-width:760px}
+  h1 b{display:block;color:transparent;background:linear-gradient(90deg,#b7a6ff,#7b61ff 45%,#47d9c4);-webkit-background-clip:text;background-clip:text}
+  p{margin:26px 0 0;font-size:28px;color:#c9d0e8;font-weight:600}
+  .chain{position:absolute;right:64px;bottom:64px;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+  .chain i{font-style:normal;padding:12px 20px;border-radius:16px;background:rgba(255,255,255,.1);border:1px solid rgba(167,147,255,.4);font-size:28px;font-weight:800}
+  .chain i u{text-decoration:none;color:#56e3cf}
+</style></head><body><div class="wrap">
+  <div class="brand"><img src="../assets/media/icon-512.webp" alt=""><div>Lin<span>Hug</span></div></div>
+  <h1 id="h"></h1><p id="p"></p></div>
+  <div class="chain" id="c"></div>
+<script>
+const tr=location.hash==="#tr";
+document.getElementById("h").innerHTML=tr?"Kelime zinciri oyunu.<b>Zinciri koparma!</b>":"Word chain game.<b>Keep the chain alive.</b>";
+document.getElementById("p").textContent=tr?"Arkadaşlarınla oyna · iOS ve Android · Ücretsiz":"Play with friends · iOS & Android · Free";
+document.getElementById("c").innerHTML=(tr?["kale<u>m</u>","mas<u>a</u>","araba"]:["appl<u>e</u>","elephan<u>t</u>","tiger"]).map(w=>`<i>${w}</i>`).join("");
+</script></body></html>

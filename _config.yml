@@ -1,0 +1,5 @@
+# GitHub Pages (Jekyll) settings: publish the generated site only, not its sources.
+exclude:
+  - src
+  - scripts
+  - README.md
