@@ -118,7 +118,7 @@ function layout({ lang, path, title, description, body, alternates, ld = [], noi
   </head>
   <body>
     <a class="skip-link" href="#main">${esc(t.skip)}</a>
-    <div class="game-backdrop" aria-hidden="true"></div>
+    <div class="game-backdrop" aria-hidden="true"><div class="forest-scenes"><span class="scene scene-1 is-active"></span><span class="scene scene-2"></span><span class="scene scene-3"></span></div></div>
     <div class="word-sky" aria-hidden="true">
       ${sky}
     </div>
@@ -216,7 +216,7 @@ function homePage(lang) {
   const isTr = lang === "tr";
   const anchors = t.anchors;
 
-  const body = `      <div class="shell hero">
+  const body = `      <div class="shell hero" data-scene="1">
         <div>
           <p class="kicker">${esc(h.kicker)}</p>
           <h1>${esc(h.h1)}<span class="gradient">${esc(h.h1Accent)}</span></h1>
@@ -227,15 +227,16 @@ function homePage(lang) {
         <div class="hero-visual">
           <div class="orbit" aria-hidden="true"></div>
           <div class="hero-reel">
-            <video autoplay muted loop playsinline preload="metadata" poster="/assets/media/linhug-logo-reveal.webp" width="720" height="1280" aria-label="${esc(h.reelAria)}">
-              <source src="/assets/media/linhug-logo-reveal.mp4" type="video/mp4" />
-            </video>
+            <video class="theme-video" autoplay muted loop playsinline preload="metadata" width="720" height="1280" aria-label="${esc(h.reelAria)}"
+              data-dark-src="/assets/media/linhug-logo-reveal.mp4" data-dark-poster="/assets/media/linhug-logo-reveal.webp"
+              data-light-src="/assets/media/linhug-walk.mp4" data-light-poster="/assets/media/linhug-walk.webp"></video>
+            <script>(function(v){var m=document.documentElement.dataset.theme==="light"?"light":"dark";v.poster=v.dataset[m+"Poster"];v.src=v.dataset[m+"Src"]})(document.currentScript.previousElementSibling)</script>
             <span class="hero-reel-badge">${esc(h.reelBadge)}</span>
           </div>
         </div>
       </div>
 
-      <section id="${anchors.modes}" aria-labelledby="modes-title">
+      <section id="${anchors.modes}" data-scene="2" aria-labelledby="modes-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="modes-title">${esc(h.modesTitle)}</h2>
@@ -252,7 +253,7 @@ function homePage(lang) {
         </div>
       </section>
 
-      <section id="${anchors.how}" aria-labelledby="how-title">
+      <section id="${anchors.how}" data-scene="2" aria-labelledby="how-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="how-title">${esc(h.chainTitle)}</h2>
@@ -268,7 +269,7 @@ function homePage(lang) {
         </div>
       </section>
 
-      <section id="${anchors.features}" aria-labelledby="features-title">
+      <section id="${anchors.features}" data-scene="2" aria-labelledby="features-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="features-title">${esc(h.featuresTitle)}</h2>
@@ -284,7 +285,7 @@ function homePage(lang) {
         </div>
       </section>
 
-      <section id="${anchors.screens}" aria-labelledby="screens-title">
+      <section id="${anchors.screens}" data-scene="3" aria-labelledby="screens-title">
         <div class="section-heading shell">
           <h2 id="screens-title">${esc(h.screensTitle)}</h2>
           <p>${esc(h.screensLead)}</p>
@@ -301,7 +302,7 @@ function homePage(lang) {
         </div>
       </section>
 
-      <section id="${anchors.videos}" aria-labelledby="videos-title">
+      <section id="${anchors.videos}" data-scene="3" aria-labelledby="videos-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="videos-title">${esc(h.videosTitle)}</h2>
@@ -321,7 +322,7 @@ function homePage(lang) {
         </div>
       </section>
 ${isTr ? `
-      <section id="${anchors.words}" aria-labelledby="words-title">
+      <section id="${anchors.words}" data-scene="3" aria-labelledby="words-title">
         <div class="shell">
           <div class="card word-teaser">
             <div>
@@ -337,7 +338,7 @@ ${isTr ? `
         </div>
       </section>
 ` : ""}
-      <section id="${anchors.faq}" aria-labelledby="faq-title">
+      <section id="${anchors.faq}" data-scene="3" aria-labelledby="faq-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="faq-title">${esc(h.faqTitle)}</h2>
@@ -348,7 +349,7 @@ ${isTr ? `
         </div>
       </section>
 
-      <section class="shell cta" id="download" aria-labelledby="cta-title">
+      <section class="shell cta" id="download" data-scene="3" aria-labelledby="cta-title">
         <img class="cta-icon" src="/assets/media/icon-192.webp" alt="${esc(h.ctaIcon)}" width="94" height="94" loading="lazy" />
         <h2 id="cta-title">${esc(h.ctaTitle)}</h2>
         <p>${esc(h.ctaText)}</p>

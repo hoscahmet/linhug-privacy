@@ -19,7 +19,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/media/icon-192.png" />
     <link rel="apple-touch-icon" href="/assets/media/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="stylesheet" href="/assets/site.css?v=4f011915f8" />
+    <link rel="stylesheet" href="/assets/site.css?v=ff1cfdd61e" />
     <meta name="apple-itunes-app" content="app-id=6788700503" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="LinHug" />
@@ -43,7 +43,7 @@
   </head>
   <body>
     <a class="skip-link" href="#main">सामग्री पर जाएँ</a>
-    <div class="game-backdrop" aria-hidden="true"></div>
+    <div class="game-backdrop" aria-hidden="true"><div class="forest-scenes"><span class="scene scene-1 is-active"></span><span class="scene scene-2"></span><span class="scene scene-3"></span></div></div>
     <div class="word-sky" aria-hidden="true">
       <span class="sky-word" style="--left: 5%; --size: 18px; --duration: 24s; --delay: -6s; --drift: 42px">शब्द</span>
       <span class="sky-word" style="--left: 16%; --size: 25px; --duration: 31s; --delay: -19s; --drift: -38px">जादू</span>
@@ -78,7 +78,7 @@
     </header>
 
     <main id="main">
-      <div class="shell hero">
+      <div class="shell hero" data-scene="1">
         <div>
           <p class="kicker">लाइव मल्टीप्लेयर शब्द मुकाबले</p>
           <h1>वर्ड चेन गेम।<span class="gradient">चेन टूटने न दें।</span></h1>
@@ -92,15 +92,16 @@
         <div class="hero-visual">
           <div class="orbit" aria-hidden="true"></div>
           <div class="hero-reel">
-            <video autoplay muted loop playsinline preload="metadata" poster="/assets/media/linhug-logo-reveal.webp" width="720" height="1280" aria-label="LinHug का शुभंकर लोगो पूरा करता हुआ">
-              <source src="/assets/media/linhug-logo-reveal.mp4" type="video/mp4" />
-            </video>
+            <video class="theme-video" autoplay muted loop playsinline preload="metadata" width="720" height="1280" aria-label="LinHug का शुभंकर लोगो पूरा करता हुआ"
+              data-dark-src="/assets/media/linhug-logo-reveal.mp4" data-dark-poster="/assets/media/linhug-logo-reveal.webp"
+              data-light-src="/assets/media/linhug-walk.mp4" data-light-poster="/assets/media/linhug-walk.webp"></video>
+            <script>(function(v){var m=document.documentElement.dataset.theme==="light"?"light":"dark";v.poster=v.dataset[m+"Poster"];v.src=v.dataset[m+"Src"]})(document.currentScript.previousElementSibling)</script>
             <span class="hero-reel-badge">LinHug से मिलें</span>
           </div>
         </div>
       </div>
 
-      <section id="modes" aria-labelledby="modes-title">
+      <section id="modes" data-scene="2" aria-labelledby="modes-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="modes-title">खेलने के तीन तरीके।</h2>
@@ -129,7 +130,7 @@
         </div>
       </section>
 
-      <section id="how" aria-labelledby="how-title">
+      <section id="how" data-scene="2" aria-labelledby="how-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="how-title">वर्ड चेन कैसे काम करती है।</h2>
@@ -152,7 +153,7 @@
         </div>
       </section>
 
-      <section id="features" aria-labelledby="features-title">
+      <section id="features" data-scene="2" aria-labelledby="features-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="features-title">दोस्तों के लिए बना शब्द गेम।</h2>
@@ -178,7 +179,7 @@
         </div>
       </section>
 
-      <section id="screens" aria-labelledby="screens-title">
+      <section id="screens" data-scene="3" aria-labelledby="screens-title">
         <div class="section-heading shell">
           <h2 id="screens-title">आपका शब्द रोमांच, एक नज़र में।</h2>
           <p>रूम खोजें, नियम तय करें, चेन सीखें और स्कोरबोर्ड के शीर्ष तक दोस्तों से मुकाबला करें।</p>
@@ -201,7 +202,7 @@
         </div>
       </section>
 
-      <section id="videos" aria-labelledby="videos-title">
+      <section id="videos" data-scene="3" aria-labelledby="videos-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="videos-title">LinHug को चलते हुए देखें।</h2>
@@ -248,7 +249,7 @@
         </div>
       </section>
 
-      <section id="faq" aria-labelledby="faq-title">
+      <section id="faq" data-scene="3" aria-labelledby="faq-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="faq-title">अक्सर पूछे जाने वाले सवाल</h2>
@@ -265,7 +266,7 @@
         </div>
       </section>
 
-      <section class="shell cta" id="download" aria-labelledby="cta-title">
+      <section class="shell cta" id="download" data-scene="3" aria-labelledby="cta-title">
         <img class="cta-icon" src="/assets/media/icon-192.webp" alt="LinHug ऐप आइकन" width="94" height="94" loading="lazy" />
         <h2 id="cta-title">आपका अगला शब्द यहीं से शुरू होता है।</h2>
         <p>दोस्तों को साथ लाएँ और देखें कि आप चेन को कितनी देर तक ज़िंदा रख सकते हैं।</p>
@@ -298,6 +299,6 @@
         <p class="legal-notice">LinHug का नाम, लोगो, पात्र, ग्राफ़िक्स और ऑडियो, इंटरफ़ेस डिज़ाइन, टेक्स्ट और सॉफ़्टवेयर लागू बौद्धिक संपदा कानूनों के तहत सुरक्षित हैं। इन सामग्रियों को पूर्व लिखित अनुमति के बिना कॉपी, रूपांतरित, वितरित, निकाला या व्यावसायिक रूप से उपयोग नहीं किया जा सकता।</p>
       </div>
     </footer>
-    <script src="/assets/site.js?v=bf3cde5e50" defer></script>
+    <script src="/assets/site.js?v=d54d883e44" defer></script>
   </body>
 </html>

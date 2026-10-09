@@ -35,39 +35,37 @@
 }
 
 :root[data-theme="light"] {
+  /* Light = the forest ruins of the LinHug intro: warm stone, moss and sunlight, with the mascot's purple and teal as accents. */
   color-scheme: light;
-  --bg: #f5f4ff;
-  --text: #141a3f;
-  --muted: #4f5878;
-  --faint: #6a7291;
+  --bg: #efe9d6;
+  --text: #1b261c;
+  --muted: #414c3c;
+  --faint: #5b6552;
   --purple: #6a4ff0;
   --accent: #5b3fe6;
-  --teal: #14a894;
-  --teal-text: #0b7f70;
-  --yellow: #f2b630;
-  --border: rgba(20, 26, 63, 0.09);
-  --border-strong: rgba(106, 79, 240, 0.22);
-  --panel: rgba(255, 255, 255, 0.86);
-  --panel-strong: #ffffff;
-  --panel-media: #ffffff;
-  --chip: rgba(106, 79, 240, 0.07);
-  --header-bg: rgba(250, 249, 255, 0.8);
-  --footer-bg: rgba(255, 255, 255, 0.78);
-  --shadow-card: 0 18px 50px rgba(44, 38, 120, 0.12), 0 2px 6px rgba(44, 38, 120, 0.05);
-  --shadow-soft: 0 10px 26px rgba(44, 38, 120, 0.14);
-  --sky-1: rgba(106, 79, 240, 0.13);
-  --sky-2: rgba(20, 168, 148, 0.16);
-  --sky-3: rgba(106, 79, 240, 0.2);
-  --sky-glow: none;
-  --gradient-text: linear-gradient(90deg, #7a5cff, #5b3fe6 45%, #0f9e8b);
-  --backdrop-shade: linear-gradient(180deg, #fbfaff 0%, #f3f1ff 55%, #eef8f6 100%);
-  --backdrop-glow:
-    radial-gradient(circle at 12% 8%, rgba(122, 92, 255, 0.16), transparent 34rem),
-    radial-gradient(circle at 88% 26%, rgba(20, 168, 148, 0.13), transparent 30rem),
-    radial-gradient(circle at 50% 100%, rgba(255, 212, 105, 0.16), transparent 36rem);
-  --backdrop-image: radial-gradient(rgba(106, 79, 240, 0.12) 1px, transparent 1.4px);
-  --reel-bg: #1c1f45;
-  --video-bg: #11143a;
+  --teal: #12917f;
+  --teal-text: #0a6c60;
+  --yellow: #e0a526;
+  --border: rgba(62, 56, 30, 0.14);
+  --border-strong: rgba(106, 79, 240, 0.3);
+  --panel: rgba(252, 249, 239, 0.88);
+  --panel-strong: #fcf9ef;
+  --panel-media: #fcf9ef;
+  --chip: rgba(74, 92, 42, 0.09);
+  --header-bg: rgba(250, 246, 233, 0.82);
+  --footer-bg: rgba(247, 243, 229, 0.9);
+  --shadow-card: 0 20px 50px rgba(28, 44, 20, 0.18), 0 2px 6px rgba(28, 44, 20, 0.06);
+  --shadow-soft: 0 10px 26px rgba(28, 44, 20, 0.16);
+  --sky-1: #3c4f78;
+  --sky-2: #3c4f78;
+  --sky-3: #3c4f78;
+  --sky-glow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  --gradient-text: linear-gradient(90deg, #0f8f80, #5b3fe6 55%, #7b3fd6);
+  --backdrop-shade: linear-gradient(180deg, #e9e6cf 0%, #dfe3c6 100%);
+  --backdrop-glow: none;
+  --backdrop-image: none;
+  --reel-bg: #2c3a22;
+  --video-bg: #1f2a18;
 }
 
 * { box-sizing: border-box; }
@@ -114,12 +112,42 @@ img, video { max-width: 100%; }
   background: var(--backdrop-image) center top / cover no-repeat;
   filter: saturate(1.12) brightness(1.06);
 }
+/* Light theme: three forest scenes from the intro cross-fade as the page scrolls (site.js marks the active one). */
+.forest-scenes { display: none; }
+:root[data-theme="light"] .forest-scenes { display: block; position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.scene {
+  position: absolute;
+  inset: -6% -3%;
+  background: center / cover no-repeat;
+  opacity: 0;
+  transform: scale(1.1) translate3d(0, calc(var(--scene-shift, 0) * 1px), 0);
+  transition: opacity 1400ms ease, transform 2600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.scene.is-active { opacity: 1; transform: scale(1.03) translate3d(0, calc(var(--scene-shift, 0) * 1px), 0); }
+.scene-1 { background-image: url("/assets/media/forest-scene-1.webp"); background-position: 50% 18%; }
+.scene-2 { background-image: url("/assets/media/forest-scene-2.webp"); background-position: 50% 46%; }
+.scene-3 { background-image: url("/assets/media/forest-scene-3.webp"); background-position: 50% 40%; }
 :root[data-theme="light"] .game-backdrop::before {
-  background-size: 22px 22px;
-  background-repeat: repeat;
-  filter: none;
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.35) 70%, transparent 100%);
-  mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.35) 70%, transparent 100%);
+  /* Sun shafts through the canopy. */
+  z-index: 1;
+  inset: -20% -10%;
+  background: repeating-linear-gradient(112deg, transparent 0 70px, rgba(255, 246, 200, 0.2) 70px 120px, transparent 120px 230px);
+  filter: blur(6px);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.5) 45%, transparent 80%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.5) 45%, transparent 80%);
+  animation: sunshafts 18s ease-in-out infinite alternate;
+}
+@keyframes sunshafts {
+  from { transform: translate3d(-3%, 0, 0); opacity: 0.65; }
+  to { transform: translate3d(3%, 0, 0); opacity: 1; }
+}
+:root[data-theme="light"] .game-backdrop::after {
+  /* Parchment wash that keeps text readable over the scenes. */
+  z-index: 2;
+  background:
+    radial-gradient(ellipse 70% 60% at 24% 42%, rgba(246, 241, 224, 0.72), transparent 70%),
+    linear-gradient(180deg, rgba(244, 239, 221, 0.18) 0%, rgba(244, 239, 221, 0.34) 60%, rgba(240, 234, 214, 0.55) 100%);
 }
 .game-backdrop::after {
   content: "";
@@ -153,6 +181,26 @@ img, video { max-width: 100%; }
 }
 .sky-word:nth-child(3n) { color: var(--sky-2); }
 .sky-word:nth-child(4n) { color: var(--sky-3); }
+:root[data-theme="light"] :is(.section-heading, .hero > div:first-child) :is(h1, h2, p) { text-shadow: 0 0 18px rgba(246, 241, 224, 0.95), 0 0 4px rgba(246, 241, 224, 0.8); }
+:root[data-theme="light"] .gradient { text-shadow: none; }
+:root[data-theme="light"] .sky-word {
+  /* The floating words become the carved puzzle stones from the intro. */
+  padding: 0.22em 0.5em 0.28em;
+  border: 1px solid rgba(96, 84, 52, 0.28);
+  border-radius: 0.32em;
+  background: linear-gradient(180deg, #f3eedd, #d8cfb4);
+  box-shadow: 0 8px 18px rgba(32, 44, 20, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.75), inset 0 -3px 0 rgba(120, 104, 66, 0.28);
+  font-size: calc(var(--size) * 0.72);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  animation-name: rise-stone;
+}
+@keyframes rise-stone {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(-7deg); }
+  12% { opacity: 0.62; }
+  84% { opacity: 0.5; }
+  100% { opacity: 0; transform: translate3d(var(--drift), -115vh, 0) rotate(9deg); }
+}
 @keyframes rise {
   0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(-7deg); }
   12% { opacity: 1; }
@@ -382,6 +430,8 @@ h1 .gradient { display: block; }
   transform: rotate(2deg);
   animation: card-float 5s ease-in-out infinite;
 }
+.hero-reel video { background: center / cover no-repeat url("/assets/media/linhug-logo-reveal.webp"); }
+:root[data-theme="light"] .hero-reel video { background-image: url("/assets/media/linhug-walk.webp"); }
 .hero-reel video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; }
 .hero-reel::after {
   content: "";
@@ -774,5 +824,6 @@ h2 { margin: 0; font-size: clamp(34px, 5vw, 56px); line-height: 1.04; letter-spa
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .sky-word, .orbit, .hero-reel, .kicker::before, .screen-card { animation: none; }
+  .sky-word, .orbit, .hero-reel, .kicker::before, .screen-card, .game-backdrop::before { animation: none !important; }
+  .scene { transition: opacity 600ms ease; transform: none !important; }
 }

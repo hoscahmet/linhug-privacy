@@ -19,7 +19,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/media/icon-192.png" />
     <link rel="apple-touch-icon" href="/assets/media/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="stylesheet" href="/assets/site.css?v=4f011915f8" />
+    <link rel="stylesheet" href="/assets/site.css?v=ff1cfdd61e" />
     <meta name="apple-itunes-app" content="app-id=6788700503" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="LinHug" />
@@ -43,7 +43,7 @@
   </head>
   <body>
     <a class="skip-link" href="#main">Saltar al contenido</a>
-    <div class="game-backdrop" aria-hidden="true"></div>
+    <div class="game-backdrop" aria-hidden="true"><div class="forest-scenes"><span class="scene scene-1 is-active"></span><span class="scene scene-2"></span><span class="scene scene-3"></span></div></div>
     <div class="word-sky" aria-hidden="true">
       <span class="sky-word" style="--left: 5%; --size: 18px; --duration: 24s; --delay: -6s; --drift: 42px">palabra</span>
       <span class="sky-word" style="--left: 16%; --size: 25px; --duration: 31s; --delay: -19s; --drift: -38px">magia</span>
@@ -78,7 +78,7 @@
     </header>
 
     <main id="main">
-      <div class="shell hero">
+      <div class="shell hero" data-scene="1">
         <div>
           <p class="kicker">Batallas de palabras multijugador en vivo</p>
           <h1>Juego de cadena de palabras.<span class="gradient">Que la cadena no se rompa.</span></h1>
@@ -92,15 +92,16 @@
         <div class="hero-visual">
           <div class="orbit" aria-hidden="true"></div>
           <div class="hero-reel">
-            <video autoplay muted loop playsinline preload="metadata" poster="/assets/media/linhug-logo-reveal.webp" width="720" height="1280" aria-label="La mascota de LinHug completando el logotipo">
-              <source src="/assets/media/linhug-logo-reveal.mp4" type="video/mp4" />
-            </video>
+            <video class="theme-video" autoplay muted loop playsinline preload="metadata" width="720" height="1280" aria-label="La mascota de LinHug completando el logotipo"
+              data-dark-src="/assets/media/linhug-logo-reveal.mp4" data-dark-poster="/assets/media/linhug-logo-reveal.webp"
+              data-light-src="/assets/media/linhug-walk.mp4" data-light-poster="/assets/media/linhug-walk.webp"></video>
+            <script>(function(v){var m=document.documentElement.dataset.theme==="light"?"light":"dark";v.poster=v.dataset[m+"Poster"];v.src=v.dataset[m+"Src"]})(document.currentScript.previousElementSibling)</script>
             <span class="hero-reel-badge">Conoce a LinHug</span>
           </div>
         </div>
       </div>
 
-      <section id="modos" aria-labelledby="modes-title">
+      <section id="modos" data-scene="2" aria-labelledby="modes-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="modes-title">Tres formas de jugar.</h2>
@@ -129,7 +130,7 @@
         </div>
       </section>
 
-      <section id="como" aria-labelledby="how-title">
+      <section id="como" data-scene="2" aria-labelledby="how-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="how-title">Cómo funciona una cadena de palabras.</h2>
@@ -152,7 +153,7 @@
         </div>
       </section>
 
-      <section id="funciones" aria-labelledby="features-title">
+      <section id="funciones" data-scene="2" aria-labelledby="features-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="features-title">Un juego de palabras hecho para amigos.</h2>
@@ -178,7 +179,7 @@
         </div>
       </section>
 
-      <section id="pantallas" aria-labelledby="screens-title">
+      <section id="pantallas" data-scene="3" aria-labelledby="screens-title">
         <div class="section-heading shell">
           <h2 id="screens-title">Tu aventura de palabras, de un vistazo.</h2>
           <p>Encuentra una sala, pon las reglas, aprende la cadena y compite con tus amigos por la cima de la clasificación.</p>
@@ -201,7 +202,7 @@
         </div>
       </section>
 
-      <section id="videos" aria-labelledby="videos-title">
+      <section id="videos" data-scene="3" aria-labelledby="videos-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="videos-title">Mira LinHug en acción.</h2>
@@ -248,7 +249,7 @@
         </div>
       </section>
 
-      <section id="preguntas" aria-labelledby="faq-title">
+      <section id="preguntas" data-scene="3" aria-labelledby="faq-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="faq-title">Preguntas frecuentes</h2>
@@ -265,7 +266,7 @@
         </div>
       </section>
 
-      <section class="shell cta" id="download" aria-labelledby="cta-title">
+      <section class="shell cta" id="download" data-scene="3" aria-labelledby="cta-title">
         <img class="cta-icon" src="/assets/media/icon-192.webp" alt="Icono de la app LinHug" width="94" height="94" loading="lazy" />
         <h2 id="cta-title">Tu próxima palabra empieza aquí.</h2>
         <p>Reúne a tus amigos y descubre cuánto tiempo pueden mantener viva la cadena.</p>
@@ -298,6 +299,6 @@
         <p class="legal-notice">El nombre, el logotipo, los personajes, los gráficos y el audio, los diseños de interfaz, los textos y el software de LinHug están protegidos por las leyes de propiedad intelectual aplicables. Estos materiales no pueden copiarse, adaptarse, distribuirse, extraerse ni usarse con fines comerciales sin autorización previa por escrito.</p>
       </div>
     </footer>
-    <script src="/assets/site.js?v=bf3cde5e50" defer></script>
+    <script src="/assets/site.js?v=d54d883e44" defer></script>
   </body>
 </html>

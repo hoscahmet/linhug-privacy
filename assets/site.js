@@ -7,9 +7,20 @@
   // Theme toggle. The initial theme is applied by the inline script in <head> to avoid a flash.
   const root = document.documentElement;
   const themeColor = document.querySelector('meta[name="theme-color"]');
+  // Videos that differ per theme (the hero: logo reveal at night, the forest walk in light mode).
+  const syncThemeVideos = (theme) => {
+    document.querySelectorAll("video.theme-video").forEach((video) => {
+      const src = video.dataset[`${theme}Src`];
+      if (!src || video.getAttribute("src") === src) return;
+      video.poster = video.dataset[`${theme}Poster`];
+      video.src = src;
+      video.play().catch(() => {});
+    });
+  };
   const applyTheme = (theme) => {
     root.dataset.theme = theme;
-    if (themeColor) themeColor.content = theme === "light" ? "#f5f4ff" : "#090d2e";
+    if (themeColor) themeColor.content = theme === "light" ? "#efe9d6" : "#090d2e";
+    syncThemeVideos(theme);
   };
   applyTheme(root.dataset.theme || "dark");
   document.querySelectorAll(".theme-toggle").forEach((button) => {
@@ -38,6 +49,35 @@
       menu.querySelector("summary")?.focus();
     });
   });
+
+  // Forest scenes (light theme): sections tagged data-scene pick the backdrop; pages without tags
+  // move through the three scenes by scroll progress. A small parallax shift follows the scroll.
+  const scenes = [...document.querySelectorAll(".forest-scenes .scene")];
+  const sceneSections = [...document.querySelectorAll("[data-scene]")];
+  const motionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let sceneFrame = 0;
+  const updateScene = () => {
+    sceneFrame = 0;
+    if (root.dataset.theme !== "light" || !scenes.length) return;
+    const probe = window.innerHeight * 0.45;
+    let index = 0;
+    if (sceneSections.length) {
+      for (const section of sceneSections) {
+        if (section.getBoundingClientRect().top <= probe) index = Number(section.dataset.scene) - 1;
+      }
+    } else {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? window.scrollY / max : 0;
+      index = progress < 0.3 ? 0 : progress < 0.7 ? 1 : 2;
+    }
+    scenes.forEach((scene, i) => scene.classList.toggle("is-active", i === index));
+    if (motionOk) root.style.setProperty("--scene-shift", String(Math.round(Math.min(window.scrollY, 4000) * -0.012)));
+  };
+  const queueScene = () => { if (!sceneFrame) sceneFrame = requestAnimationFrame(updateScene); };
+  window.addEventListener("scroll", queueScene, { passive: true });
+  window.addEventListener("resize", queueScene);
+  document.querySelectorAll(".theme-toggle").forEach((button) => button.addEventListener("click", queueScene));
+  updateScene();
 
   // Below-the-fold videos load and play only when visible.
   const lazyVideos = document.querySelectorAll("video[data-lazy]");
