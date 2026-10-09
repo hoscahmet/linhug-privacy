@@ -27,11 +27,45 @@
     syncThemeVideos(theme);
   };
   applyTheme(root.dataset.theme || "dark");
+  // Switching themes reveals the new one as a circle growing from the toggle (View Transitions API).
+  // Before the light theme is captured, its forest scene is decoded so the reveal never shows an empty sky.
+  // Browsers without the API, and reduced-motion users, switch instantly.
+  const sceneImage = () => {
+    const active = document.querySelector(".forest-scenes .scene.is-active");
+    const url = active && getComputedStyle(active).getPropertyValue("--img").match(/url\(["']?([^"')]+)/)?.[1];
+    if (!url) return Promise.resolve();
+    const img = new Image();
+    img.src = url;
+    return Promise.race([img.decode().catch(() => {}), new Promise((done) => setTimeout(done, 900))]);
+  };
+  const switchTheme = async (next) => {
+    applyTheme(next);
+    store.set("linhug:theme", next);
+    if (next === "light") {
+      updateScene();
+      await sceneImage();
+    }
+  };
   document.querySelectorAll(".theme-toggle").forEach((button) => {
     button.addEventListener("click", () => {
       const next = root.dataset.theme === "light" ? "dark" : "light";
-      applyTheme(next);
-      store.set("linhug:theme", next);
+      if (!document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        switchTheme(next);
+        return;
+      }
+      const box = button.getBoundingClientRect();
+      const x = box.left + box.width / 2;
+      const y = box.top + box.height / 2;
+      const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+      root.classList.add("theme-switching");
+      const transition = document.startViewTransition(() => switchTheme(next));
+      transition.ready.then(() => {
+        root.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+          { duration: 750, easing: "cubic-bezier(0.22, 0.7, 0.2, 1)", pseudoElement: "::view-transition-new(root)" },
+        );
+      }).catch(() => {});
+      transition.finished.finally(() => root.classList.remove("theme-switching"));
     });
   });
 
@@ -56,7 +90,7 @@
 
   // Forest scenes (light theme): sections tagged data-scene pick the backdrop; pages without tags
   // move through the scenes by scroll progress. While a scene is active the camera slowly pushes
-  // in toward its landmark (the library towers, then the LINHUG stones) as you scroll through it.
+  // in toward its landmark (the library towers, the castle, the LINHUG stones) as you scroll through it.
   const scenes = [...document.querySelectorAll(".forest-scenes .scene")];
   const sceneSections = [...document.querySelectorAll("[data-scene]")];
   const motionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;

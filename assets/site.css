@@ -35,19 +35,19 @@
 }
 
 :root[data-theme="light"] {
-  /* Light = the forest ruins of the LinHug intro: warm stone, moss and sunlight, with the mascot's purple and teal as accents. */
+  /* Light = the forest ruins of the LinHug intro: warm stone, moss and sunlight. Accents are forest green with a touch of gold. */
   color-scheme: light;
   --bg: #efe9d6;
   --text: #1b261c;
   --muted: #414c3c;
   --faint: #5b6552;
-  --purple: #6a4ff0;
-  --accent: #5b3fe6;
+  --purple: #2f7d3b;
+  --accent: #2a6b2e;
   --teal: #12917f;
   --teal-text: #0a6c60;
   --yellow: #e0a526;
   --border: rgba(62, 56, 30, 0.14);
-  --border-strong: rgba(106, 79, 240, 0.3);
+  --border-strong: rgba(47, 125, 59, 0.32);
   --panel: rgba(252, 249, 239, 0.88);
   --panel-strong: #fcf9ef;
   --panel-media: #fcf9ef;
@@ -60,7 +60,7 @@
   --sky-2: #3c4f78;
   --sky-3: #3c4f78;
   --sky-glow: 0 1px 0 rgba(255, 255, 255, 0.6);
-  --gradient-text: linear-gradient(90deg, #0f8f80, #5b3fe6 55%, #7b3fd6);
+  --gradient-text: linear-gradient(90deg, #1d6b37, #3a9a3e 52%, #b8861c);
   --backdrop-shade: linear-gradient(180deg, #e9e6cf 0%, #dfe3c6 100%);
   --backdrop-glow: none;
   --backdrop-image: none;
@@ -112,7 +112,16 @@ img, video { max-width: 100%; }
   background: var(--backdrop-image) center top / cover no-repeat;
   filter: saturate(1.12) brightness(1.06);
 }
-/* Light theme: two forest scenes from the intro cross-fade as the page scrolls (site.js marks the active one). */
+/* Light theme: places where the dark palette is written out directly get forest tones. */
+:root[data-theme="light"] .nav-cta { box-shadow: 0 8px 22px rgba(36, 96, 44, 0.32); }
+:root[data-theme="light"] .hero-reel { box-shadow: 0 40px 100px rgba(28, 44, 20, 0.35), 0 0 70px rgba(58, 154, 62, 0.22); }
+:root[data-theme="light"] .feature-icon { background: rgba(47, 125, 59, 0.14); }
+:root[data-theme="light"] .feature-card:nth-child(3n) .feature-icon { background: rgba(224, 165, 38, 0.2); }
+:root[data-theme="light"] .cta { background: linear-gradient(135deg, rgba(58, 154, 62, 0.18), rgba(224, 165, 38, 0.12)), var(--panel-strong); }
+:root[data-theme="light"] .brand-name span { color: #6a4ff0; }
+:root[data-theme="light"] :is(.hero-meta, .text-link) { text-shadow: 0 0 14px rgba(246, 241, 224, 0.95), 0 0 3px rgba(246, 241, 224, 0.9); }
+
+/* Light theme: three forest scenes from the intro cross-fade as the page scrolls (site.js marks the active one). */
 .forest-scenes { display: none; }
 :root[data-theme="light"] .forest-scenes { display: block; position: absolute; inset: 0; z-index: 0; overflow: hidden; }
 .scene {
@@ -126,16 +135,18 @@ img, video { max-width: 100%; }
   will-change: opacity, transform;
 }
 .scene.is-active { opacity: 1; }
-/* --focus is the landmark each scene zooms toward: the library towers, then the LINHUG stones.
+/* --focus is the landmark each scene zooms toward: the library towers, the castle, the LINHUG stones.
    Images load only once site.js marks a scene .is-loaded (the active one and the next). Portrait phones get
    pre-cropped slices (-m) that keep the full resolution of the part they actually show. */
 .scene.is-loaded { background-image: var(--img); }
 .scene-1 { --img: url("/assets/media/forest-scene-1.webp"); background-position: 58% 40%; --focus: 58% 30%; }
-.scene-2 { --img: url("/assets/media/forest-scene-2.webp"); background-position: 50% 40%; --focus: 50% 45%; }
+.scene-2 { --img: url("/assets/media/forest-scene-2.webp"); background-position: 32% 45%; --focus: 30% 38%; }
+.scene-3 { --img: url("/assets/media/forest-scene-3.webp"); background-position: 50% 40%; --focus: 50% 45%; }
 @media (max-width: 700px) and (orientation: portrait) {
   .scene { background-position: 50% 40%; }
   .scene-1 { --img: url("/assets/media/forest-scene-1-m.webp"); --focus: 50% 30%; }
-  .scene-2 { --img: url("/assets/media/forest-scene-2-m.webp"); --focus: 50% 45%; }
+  .scene-2 { --img: url("/assets/media/forest-scene-2-m.webp"); --focus: 50% 38%; }
+  .scene-3 { --img: url("/assets/media/forest-scene-3-m.webp"); --focus: 50% 45%; }
 }
 /* Data saver or low-memory devices: keep the scenes, drop the continuous animations. */
 :root.lite .game-backdrop::before, :root.lite .sky-word { animation: none !important; }
@@ -851,3 +862,10 @@ h2 { margin: 0; font-size: clamp(34px, 5vw, 56px); line-height: 1.04; letter-spa
   :root[data-theme="light"] :is(a, button, summary, label, select, [role="button"], .icon-button, .lang-switch, .faq summary) { cursor: url("/assets/cursors/sword-hover.svg") 3 3, pointer; }
   :root :is(input, textarea, [contenteditable="true"]) { cursor: text; }
 }
+
+/* Theme switch: the new theme grows as a circle from the toggle (see site.js); the old one stays still underneath. */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }
+:root.theme-switching, :root.theme-switching body { transition: none; }
+.theme-toggle svg { transition: transform 500ms cubic-bezier(0.22, 0.7, 0.2, 1); }
+:root[data-theme="light"] .theme-toggle svg { transform: rotate(180deg); }
