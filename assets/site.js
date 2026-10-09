@@ -56,7 +56,7 @@
 
   // Forest scenes (light theme): sections tagged data-scene pick the backdrop; pages without tags
   // move through the scenes by scroll progress. While a scene is active the camera slowly pushes
-  // in toward its landmark (the library towers, the gates, the castle, the LINHUG stones) as you scroll through it.
+  // in toward its landmark (the library towers, the castle, the LINHUG stones) as you scroll through it.
   const scenes = [...document.querySelectorAll(".forest-scenes .scene")];
   const sceneSections = [...document.querySelectorAll("[data-scene]")];
   const motionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
