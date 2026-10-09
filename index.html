@@ -19,7 +19,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/media/icon-192.png" />
     <link rel="apple-touch-icon" href="/assets/media/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="stylesheet" href="/assets/site.css?v=08a90518b6" />
+    <link rel="stylesheet" href="/assets/site.css?v=46c392cdff" />
     <meta name="apple-itunes-app" content="app-id=6788700503" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="LinHug" />
@@ -43,7 +43,7 @@
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <div class="game-backdrop" aria-hidden="true"><div class="forest-scenes"><span class="scene scene-1 is-active"></span><span class="scene scene-2"></span><span class="scene scene-3"></span><span class="scene scene-4"></span></div></div>
+    <div class="game-backdrop" aria-hidden="true"><div class="forest-scenes"><span class="scene scene-1 is-active is-loaded"></span><span class="scene scene-2"></span><span class="scene scene-3"></span><span class="scene scene-4"></span></div></div>
     <div class="word-sky" aria-hidden="true">
       <span class="sky-word" style="--left: 5%; --size: 18px; --duration: 24s; --delay: -6s; --drift: 42px">word</span>
       <span class="sky-word" style="--left: 16%; --size: 25px; --duration: 31s; --delay: -19s; --drift: -38px">magic</span>
@@ -95,7 +95,7 @@
             <video class="theme-video" autoplay muted loop playsinline preload="metadata" width="720" height="1280" aria-label="LinHug mascot completing the logo"
               data-dark-src="/assets/media/linhug-logo-reveal.mp4" data-dark-poster="/assets/media/linhug-logo-reveal.webp"
               data-light-src="/assets/media/linhug-walk.mp4" data-light-poster="/assets/media/linhug-walk.webp"></video>
-            <script>(function(v){var m=document.documentElement.dataset.theme==="light"?"light":"dark";v.poster=v.dataset[m+"Poster"];v.src=v.dataset[m+"Src"]})(document.currentScript.previousElementSibling)</script>
+            <script>(function(v){var m=document.documentElement.dataset.theme==="light"?"light":"dark",c=navigator.connection;v.poster=v.dataset[m+"Poster"];if((c&&c.saveData)||(navigator.deviceMemory&&navigator.deviceMemory<=2)){v.removeAttribute("autoplay");v.preload="none"}v.src=v.dataset[m+"Src"]})(document.currentScript.previousElementSibling)</script>
             <span class="hero-reel-badge">Meet LinHug</span>
           </div>
         </div>
@@ -299,6 +299,6 @@
         <p class="legal-notice">The LinHug name, logo, characters, graphics and audio, interface designs, text, and software are protected under applicable intellectual property laws. These materials may not be copied, adapted, distributed, extracted, or used commercially without prior written permission.</p>
       </div>
     </footer>
-    <script src="/assets/site.js?v=7770099e01" defer></script>
+    <script src="/assets/site.js?v=2cfda42591" defer></script>
   </body>
 </html>

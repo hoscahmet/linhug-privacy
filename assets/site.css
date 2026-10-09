@@ -126,11 +126,25 @@ img, video { max-width: 100%; }
   will-change: opacity, transform;
 }
 .scene.is-active { opacity: 1; }
-/* --focus is the landmark each scene zooms toward: the library towers, the middle gate, the castle, the LINHUG stones. */
-.scene-1 { background-image: url("/assets/media/forest-scene-1.webp"); background-position: 58% 40%; --focus: 58% 30%; }
-.scene-2 { background-image: url("/assets/media/forest-scene-2.webp"); background-position: 50% 46%; --focus: 50% 48%; }
-.scene-3 { background-image: url("/assets/media/forest-scene-3.webp"); background-position: 32% 45%; --focus: 30% 38%; }
-.scene-4 { background-image: url("/assets/media/forest-scene-4.webp"); background-position: 50% 40%; --focus: 50% 45%; }
+/* --focus is the landmark each scene zooms toward: the library towers, the middle gate, the castle, the LINHUG stones.
+   Images load only once site.js marks a scene .is-loaded (the active one and the next). Portrait phones get
+   pre-cropped slices (-m) that keep the full resolution of the part they actually show. */
+.scene.is-loaded { background-image: var(--img); }
+.scene-1 { --img: url("/assets/media/forest-scene-1.webp"); background-position: 58% 40%; --focus: 58% 30%; }
+.scene-2 { --img: url("/assets/media/forest-scene-2.webp"); background-position: 50% 46%; --focus: 50% 48%; }
+.scene-3 { --img: url("/assets/media/forest-scene-3.webp"); background-position: 32% 45%; --focus: 30% 38%; }
+.scene-4 { --img: url("/assets/media/forest-scene-4.webp"); background-position: 50% 40%; --focus: 50% 45%; }
+@media (max-width: 700px) and (orientation: portrait) {
+  .scene { background-position: 50% 40%; }
+  .scene-1 { --img: url("/assets/media/forest-scene-1-m.webp"); --focus: 50% 30%; }
+  .scene-2 { --img: url("/assets/media/forest-scene-2-m.webp"); --focus: 50% 48%; }
+  .scene-3 { --img: url("/assets/media/forest-scene-3-m.webp"); --focus: 50% 38%; }
+  .scene-4 { --img: url("/assets/media/forest-scene-4-m.webp"); --focus: 50% 45%; }
+}
+/* Data saver or low-memory devices: keep the scenes, drop the continuous animations. */
+:root.lite .game-backdrop::before, :root.lite .sky-word { animation: none !important; }
+:root.lite .sky-word { display: none; }
+:root.lite .scene { transition: opacity 600ms ease; }
 :root[data-theme="light"] .game-backdrop::before {
   /* Sun shafts through the canopy. */
   z-index: 1;

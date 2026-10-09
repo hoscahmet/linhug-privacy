@@ -4,6 +4,10 @@
     set: (key, value) => { try { localStorage.setItem(key, value); } catch {} },
   };
 
+  // Lite mode for data saver and low-memory devices: no autoplaying hero video, no ambient animations.
+  const lite = Boolean(navigator.connection?.saveData) || (navigator.deviceMemory !== undefined && navigator.deviceMemory <= 2);
+  if (lite) document.documentElement.classList.add("lite");
+
   // Theme toggle. The initial theme is applied by the inline script in <head> to avoid a flash.
   const root = document.documentElement;
   const themeColor = document.querySelector('meta[name="theme-color"]');
@@ -14,7 +18,7 @@
       if (!src || video.getAttribute("src") === src) return;
       video.poster = video.dataset[`${theme}Poster`];
       video.src = src;
-      video.play().catch(() => {});
+      if (!lite) video.play().catch(() => {});
     });
   };
   const applyTheme = (theme) => {
@@ -84,6 +88,8 @@
     const progress = Math.min(1, Math.max(0, (probe - starts[index]) / Math.max(1, end - starts[index])));
     scenes.forEach((scene, i) => {
       scene.classList.toggle("is-active", i === index);
+      // Load the active scene and the next one ahead of time; the rest wait until they are near.
+      if (i === index || i === index + 1) scene.classList.add("is-loaded");
       const zoom = !motionOk ? 1 : i === index ? ZOOM_FROM + (ZOOM_TO - ZOOM_FROM) * progress : i < index ? ZOOM_TO : ZOOM_FROM;
       scene.style.setProperty("--zoom", zoom.toFixed(4));
     });

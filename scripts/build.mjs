@@ -118,7 +118,7 @@ function layout({ lang, path, title, description, body, alternates, ld = [], noi
   </head>
   <body>
     <a class="skip-link" href="#main">${esc(t.skip)}</a>
-    <div class="game-backdrop" aria-hidden="true"><div class="forest-scenes"><span class="scene scene-1 is-active"></span><span class="scene scene-2"></span><span class="scene scene-3"></span><span class="scene scene-4"></span></div></div>
+    <div class="game-backdrop" aria-hidden="true"><div class="forest-scenes"><span class="scene scene-1 is-active is-loaded"></span><span class="scene scene-2"></span><span class="scene scene-3"></span><span class="scene scene-4"></span></div></div>
     <div class="word-sky" aria-hidden="true">
       ${sky}
     </div>
@@ -230,7 +230,7 @@ function homePage(lang) {
             <video class="theme-video" autoplay muted loop playsinline preload="metadata" width="720" height="1280" aria-label="${esc(h.reelAria)}"
               data-dark-src="/assets/media/linhug-logo-reveal.mp4" data-dark-poster="/assets/media/linhug-logo-reveal.webp"
               data-light-src="/assets/media/linhug-walk.mp4" data-light-poster="/assets/media/linhug-walk.webp"></video>
-            <script>(function(v){var m=document.documentElement.dataset.theme==="light"?"light":"dark";v.poster=v.dataset[m+"Poster"];v.src=v.dataset[m+"Src"]})(document.currentScript.previousElementSibling)</script>
+            <script>(function(v){var m=document.documentElement.dataset.theme==="light"?"light":"dark",c=navigator.connection;v.poster=v.dataset[m+"Poster"];if((c&&c.saveData)||(navigator.deviceMemory&&navigator.deviceMemory<=2)){v.removeAttribute("autoplay");v.preload="none"}v.src=v.dataset[m+"Src"]})(document.currentScript.previousElementSibling)</script>
             <span class="hero-reel-badge">${esc(h.reelBadge)}</span>
           </div>
         </div>
