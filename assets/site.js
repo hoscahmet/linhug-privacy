@@ -25,6 +25,20 @@
     link.addEventListener("click", () => store.set("linhug:lang", link.dataset.setLang));
   });
 
+  // Language menu closes on an outside click or Escape.
+  const langMenus = document.querySelectorAll(".lang-menu");
+  document.addEventListener("click", (event) => {
+    langMenus.forEach((menu) => { if (menu.open && !menu.contains(event.target)) menu.open = false; });
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    langMenus.forEach((menu) => {
+      if (!menu.open) return;
+      menu.open = false;
+      menu.querySelector("summary")?.focus();
+    });
+  });
+
   // Below-the-fold videos load and play only when visible.
   const lazyVideos = document.querySelectorAll("video[data-lazy]");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");

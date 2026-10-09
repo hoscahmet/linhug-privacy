@@ -2,11 +2,11 @@
 // Generates every HTML page, sitemap.xml, robots.txt and the web manifest.
 // Run: node scripts/build.mjs   (no dependencies)
 // Edit copy in scripts/content.mjs, legal text in src/pages/*.html, styles in assets/site.css.
-import { readFile, writeFile, mkdir, rm } from "node:fs/promises";
+import { readFile, writeFile, mkdir, rm, access } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { SITE, APP_STORE, PLAY_STORE, SUPPORT_EMAIL, SOCIAL, SCREENSHOTS, HUNT_POINTS, copy } from "./content.mjs";
+import { SITE, APP_STORE, PLAY_STORE, SUPPORT_EMAIL, SOCIAL, SCREENSHOTS, HUNT_POINTS, LANGS, copy } from "./content.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
@@ -27,10 +27,11 @@ async function emit(path, html, { sitemapEntry = true, alternates } = {}) {
 
 // ---------- Shared chrome ----------
 
-const SKY_WORDS = {
-  en: ["word", "magic", "dream", "ocean", "spark", "castle", "echo", "play"],
-  tr: ["kelime", "zincir", "harf", "kalem", "masa", "yıldız", "renk", "oyun"],
-};
+// Share images exist per language once scripts/make-og.sh has rendered them; otherwise fall back to English.
+const ogLangs = new Set();
+for (const lang of LANGS) await access(join(ROOT, `assets/media/og-${lang}.jpg`)).then(() => ogLangs.add(lang), () => {});
+// Browser-language prefixes that differ from our codes (legacy "in" for Indonesian).
+const LANG_ALIASES = { in: "id" };
 const SKY_LAYOUT = [[5, 18, 24, -6, 42], [16, 25, 31, -19, -38], [29, 17, 26, -11, 30], [42, 21, 33, -25, -45], [55, 17, 28, -14, 50], [68, 26, 35, -8, -32], [80, 19, 25, -21, 38], [92, 22, 30, -3, -48]];
 
 const icons = {
@@ -57,20 +58,27 @@ const breadcrumbNav = (crumbs, label) => `<nav aria-label="${esc(label)}"><ol cl
 
 function layout({ lang, path, title, description, body, alternates, ld = [], noindex = false, active }) {
   const t = copy[lang];
-  const other = lang === "en" ? "tr" : "en";
-  const switchTarget = alternates?.[other] ?? copy[other].paths.home;
-  const ogImage = `${SITE}/assets/media/og-${lang}.jpg`;
+  const ogImage = `${SITE}/assets/media/og-${ogLangs.has(lang) ? lang : "en"}.jpg`;
   const hreflang = alternates
     ? Object.entries(alternates).map(([code, href]) => `<link rel="alternate" hreflang="${code}" href="${absolute(href)}" />`).join("\n    ") +
       `\n    <link rel="alternate" hreflang="x-default" href="${absolute(alternates.en ?? alternates.tr)}" />`
     : "";
-  // Turkish-language browsers landing on an English page with a Turkish twin are sent there once,
-  // unless they picked a language with the switcher. Crawlers do not report a Turkish locale.
-  const autoLang = lang === "en" && alternates?.tr
-    ? `try{if(!localStorage.getItem("linhug:lang")&&/^tr\\b/i.test((navigator.languages&&navigator.languages[0])||navigator.language||""))location.replace(${JSON.stringify(encodeURI(alternates.tr))}+location.hash)}catch(e){}`
+  // English is the default (x-default) version. A visitor whose browser prefers another supported language
+  // is sent to that page's twin, unless they already picked a language with the switcher.
+  // The first browser language we support wins, so ["en-US", "tr"] stays on English. Crawlers report English.
+  const redirects = lang === "en" && alternates
+    ? Object.fromEntries(Object.entries(alternates).filter(([code]) => code !== "en").map(([code, href]) => [code, encodeURI(href)]))
+    : {};
+  const autoLang = Object.keys(redirects).length
+    ? `try{if(!localStorage.getItem("linhug:lang")){var m=${JSON.stringify(redirects)},a=${JSON.stringify(LANG_ALIASES)},s=${JSON.stringify(LANGS)},l=navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||""];for(var i=0;i<l.length;i++){var c=String(l[i]).toLowerCase().split(/[-_]/)[0];c=a[c]||c;if(s.indexOf(c)>-1){if(m[c])location.replace(m[c]+location.hash);break}}}}catch(e){}`
     : "";
+  const langMenu = LANGS.map((code) => {
+    const href = alternates?.[code] ?? copy[code].paths.home;
+    const current = code === lang ? ' aria-current="true"' : "";
+    return `<li><a href="${esc(href)}" hreflang="${code}" lang="${code}" data-set-lang="${code}"${current}>${esc(copy[code].name)}</a></li>`;
+  }).join("");
   const nav = t.nav.map(([href, label]) => `<a href="${esc(href)}"${active === href ? ' aria-current="page"' : ""}>${esc(label)}</a>`).join("\n          ");
-  const sky = SKY_WORDS[lang].map((word, i) => {
+  const sky = t.sky.map((word, i) => {
     const [left, size, duration, delay, drift] = SKY_LAYOUT[i];
     return `<span class="sky-word" style="--left: ${left}%; --size: ${size}px; --duration: ${duration}s; --delay: ${delay}s; --drift: ${drift}px">${word}</span>`;
   }).join("\n      ");
@@ -101,7 +109,7 @@ function layout({ lang, path, title, description, body, alternates, ld = [], noi
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="${t.locale}" />
-    <meta property="og:locale:alternate" content="${copy[other].locale}" />
+    ${LANGS.filter((code) => code !== lang).map((code) => `<meta property="og:locale:alternate" content="${copy[code].locale}" />`).join("\n    ")}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${esc(title)}" />
     <meta name="twitter:description" content="${esc(description)}" />
@@ -121,12 +129,15 @@ function layout({ lang, path, title, description, body, alternates, ld = [], noi
           <img src="/assets/media/icon-192.webp" alt="" width="42" height="42" />
           <span class="brand-name">Lin<span>Hug</span></span>
         </a>
-        <nav class="nav-links" aria-label="${lang === "tr" ? "Ana menü" : "Main navigation"}">
+        <nav class="nav-links" aria-label="${esc(t.navAria)}">
           ${nav}
           <a class="nav-cta" href="${t.paths.home}#download">${esc(t.download)}</a>
         </nav>
         <div class="nav-tools">
-          <a class="lang-switch" href="${esc(switchTarget)}" hreflang="${other}" lang="${other}" data-set-lang="${other}" aria-label="${esc(t.langSwitch.aria)}">${icons.globe}<span class="lang-label">${esc(t.langSwitch.label)}</span><span class="lang-short" aria-hidden="true">${t.langSwitch.short}</span></a>
+          <details class="lang-menu">
+            <summary class="lang-switch" aria-label="${esc(t.langMenu)}" title="${esc(t.langMenu)}">${icons.globe}<span class="lang-label">${esc(t.name)}</span><span class="lang-short" aria-hidden="true">${lang.toUpperCase()}</span></summary>
+            <ul class="lang-list">${langMenu}</ul>
+          </details>
           <button class="icon-button theme-toggle" type="button" aria-label="${esc(t.themeLabel)}" title="${esc(t.themeLabel)}">${icons.moon}${icons.sun}</button>
         </div>
       </div>
@@ -144,7 +155,7 @@ ${body}
             <div class="social-links" aria-label="${esc(t.footer.social)}">
               ${SOCIAL.map((s) => `<a href="${s.url}" target="_blank" rel="noopener" aria-label="${esc(t.footer.followOn(s.name))}" title="${s.name}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${s.path}"/></svg></a>`).join("\n              ")}
             </div>
-            <nav class="footer-links" aria-label="${lang === "tr" ? "Alt menü" : "Footer"}">
+            <nav class="footer-links" aria-label="${esc(t.footerAria)}">
               ${t.footer.links.map(([href, label]) => `<a href="${esc(href)}">${esc(label)}</a>`).join("\n              ")}
             </nav>
           </div>
@@ -178,16 +189,16 @@ function appLd(lang) {
     "@type": "MobileApplication",
     "@id": `${SITE}/#app`,
     name: "LinHug",
-    alternateName: lang === "tr" ? "LinHug Kelime Zinciri" : "LinHug Word Chain",
+    alternateName: t.app.alternateName,
     description: t.home.description,
     url: absolute(t.paths.home),
     image: `${SITE}/assets/media/icon-512.png`,
     screenshot: SCREENSHOTS.map(([file]) => `${SITE}/assets/media/screens/${file}`),
     applicationCategory: "GameApplication",
-    applicationSubCategory: lang === "tr" ? "Kelime oyunu" : "Word game",
-    genre: lang === "tr" ? "Kelime oyunu" : "Word game",
+    applicationSubCategory: t.app.genre,
+    genre: t.app.genre,
     operatingSystem: "iOS, Android",
-    inLanguage: ["en", "tr", "es", "pt", "id", "hi"],
+    inLanguage: LANGS,
     installUrl: [APP_STORE, PLAY_STORE],
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     publisher: { "@id": `${SITE}/#organization` },
@@ -203,7 +214,7 @@ function homePage(lang) {
   const t = copy[lang];
   const h = t.home;
   const isTr = lang === "tr";
-  const anchors = isTr ? { modes: "modlar", how: "nasil", features: "ozellikler", screens: "ekranlar", videos: "videolar", words: "kelimeler", faq: "sss" } : { modes: "modes", how: "how", features: "features", screens: "screens", videos: "videos", words: "words", faq: "faq" };
+  const anchors = t.anchors;
 
   const body = `      <div class="shell hero">
         <div>
@@ -344,10 +355,10 @@ ${isTr ? `
         ${storeButtons(t)}
       </section>`;
 
-  const alternates = { en: copy.en.paths.home, tr: copy.tr.paths.home };
+  const alternates = Object.fromEntries(LANGS.map((code) => [code, copy[code].paths.home]));
   const ld = [
     organizationLd(),
-    { "@type": "WebSite", "@id": `${SITE}/#website`, url: `${SITE}/`, name: "LinHug", inLanguage: ["en", "tr"], publisher: { "@id": `${SITE}/#organization` } },
+    { "@type": "WebSite", "@id": `${SITE}/#website`, url: `${SITE}/`, name: "LinHug", inLanguage: LANGS, publisher: { "@id": `${SITE}/#organization` } },
     appLd(lang),
     faqLd(h.faq),
   ];
@@ -361,7 +372,7 @@ function howToPage(lang) {
   const p = t.howTo;
   const table = `<table class="score-table"><thead><tr><th scope="row">${esc(p.huntTable[0])}</th>${HUNT_POINTS.map(([n]) => `<th scope="col">${n}</th>`).join("")}</tr></thead><tbody><tr><th scope="row">${esc(p.huntTable[1])}</th>${HUNT_POINTS.map(([, pts]) => `<td>${pts}</td>`).join("")}</tr></tbody></table>`;
   const body = `      <div class="shell page">
-        ${breadcrumbNav(p.crumbs, lang === "tr" ? "Sayfa yolu" : "Breadcrumb")}
+        ${breadcrumbNav(p.crumbs, t.crumbAria)}
         <header class="page-head">
           <h1>${esc(p.h1)}</h1>
           <p class="lead">${esc(p.lead)}</p>
@@ -373,19 +384,18 @@ function howToPage(lang) {
           ${asideCta(lang)}
         </div>
       </div>`;
-  const alternates = { en: copy.en.paths.howTo, tr: copy.tr.paths.howTo };
+  const alternates = Object.fromEntries(LANGS.map((code) => [code, copy[code].paths.howTo]));
   const ld = [breadcrumbLd(p.crumbs, t.paths.howTo), { "@type": "Article", headline: p.h1, description: p.description, inLanguage: lang, author: { "@id": `${SITE}/#organization` }, publisher: { "@id": `${SITE}/#organization` }, dateModified: BUILD_DATE, mainEntityOfPage: absolute(t.paths.howTo) }, organizationLd()];
   return emit(t.paths.howTo, layout({ lang, path: t.paths.howTo, title: p.title, description: p.description, body, alternates, ld, active: t.paths.howTo }), { alternates });
 }
 
 function asideCta(lang, extra = "") {
   const t = copy[lang];
-  const isTr = lang === "tr";
   return `<aside class="word-aside">
             ${extra}
             <div class="card mini-cta">
-              <h2>${isTr ? "LinHug’ı indir" : "Get LinHug"}</h2>
-              <p>${isTr ? "Arkadaşlarınla canlı kelime zinciri oyna. Ücretsiz." : "Play live word chain with your friends. Free."}</p>
+              <h2>${esc(t.aside.title)}</h2>
+              <p>${esc(t.aside.text)}</p>
               ${storeButtons(t)}
             </div>
           </aside>`;
@@ -616,12 +626,12 @@ ${content.split("\n").map((line) => (line ? `            ${line}` : "")).join("\
 
 async function notFound() {
   const t = copy.en.notFound;
-  const tr = copy.tr.notFound;
+  const others = LANGS.filter((code) => code !== "en");
   const body = `      <div class="shell page" style="text-align:center;min-height:60vh;display:grid;place-content:center">
         <h1 style="margin:0 auto">${esc(t.h1)}</h1>
         <p class="lead">${esc(t.text)}</p>
-        <p class="lead" lang="tr">${esc(tr.text)}</p>
-        <p style="margin-top:28px"><a class="nav-cta" style="text-decoration:none;font-weight:800" href="/">${esc(t.button)}</a> &nbsp; <a class="text-link" href="/tr/" lang="tr">${esc(tr.button)}</a></p>
+        <p style="margin-top:28px"><a class="nav-cta" style="text-decoration:none;font-weight:800" href="/">${esc(t.button)}</a></p>
+        <p style="margin-top:20px;display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center">${others.map((code) => `<a class="text-link" href="${copy[code].paths.home}" lang="${code}">${esc(copy[code].notFound.button)}</a>`).join("")}</p>
       </div>`;
   await emit("/404.html", layout({ lang: "en", path: "/404.html", title: t.title, description: t.text, body, noindex: true }), { sitemapEntry: false });
 }
@@ -629,10 +639,10 @@ async function notFound() {
 // ---------- Run ----------
 
 await rm(join(ROOT, "tr/kelimeler"), { recursive: true, force: true });
-await homePage("en");
-await homePage("tr");
-await howToPage("en");
-await howToPage("tr");
+for (const lang of LANGS) {
+  await homePage(lang);
+  await howToPage(lang);
+}
 await wordHub();
 await startPages();
 await endPages();

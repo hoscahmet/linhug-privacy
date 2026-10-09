@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Source for assets/media/og-{en,tr}.png. Regenerate with scripts/make-og.sh -->
+<!-- Source for assets/media/og-{en,tr,es,pt,id,hi}.jpg. Regenerate with scripts/make-og.sh -->
 <html><head><meta charset="utf-8"><style>
   html,body{margin:0;width:1200px;height:630px;overflow:hidden}
   body{font-family:-apple-system,"SF Pro Display","Helvetica Neue",sans-serif;color:#f8f8ff;
@@ -19,8 +19,17 @@
   <h1 id="h"></h1><p id="p"></p></div>
   <div class="chain" id="c"></div>
 <script>
-const tr=location.hash==="#tr";
-document.getElementById("h").innerHTML=tr?"Kelime zinciri oyunu.<b>Zinciri koparma!</b>":"Word chain game.<b>Keep the chain alive.</b>";
-document.getElementById("p").textContent=tr?"Arkadaşlarınla oyna · iOS ve Android · Ücretsiz":"Play with friends · iOS & Android · Free";
-document.getElementById("c").innerHTML=(tr?["kale<u>m</u>","mas<u>a</u>","araba"]:["appl<u>e</u>","elephan<u>t</u>","tiger"]).map(w=>`<i>${w}</i>`).join("");
+const chain=["appl<u>e</u>","elephan<u>t</u>","tiger"];
+const T={
+  en:["Word chain game.<b>Keep the chain alive.</b>","Play with friends · iOS & Android · Free",chain],
+  tr:["Kelime zinciri oyunu.<b>Zinciri koparma!</b>","Arkadaşlarınla oyna · iOS ve Android · Ücretsiz",["kale<u>m</u>","mas<u>a</u>","araba"]],
+  es:["Cadena de palabras.<b>Que no se rompa.</b>","Juega con amigos · iOS y Android · Gratis",chain],
+  pt:["Corrente de palavras.<b>Não deixe quebrar.</b>","Jogue com amigos · iOS e Android · Grátis",chain],
+  id:["Game sambung kata.<b>Jaga rantainya.</b>","Main bersama teman · iOS & Android · Gratis",chain],
+  hi:["वर्ड चेन गेम।<b>चेन टूटने न दें।</b>","दोस्तों के साथ खेलें · iOS और Android · मुफ़्त",chain],
+};
+const [h,p,c]=T[location.hash.slice(1)]||T.en;
+document.getElementById("h").innerHTML=h;
+document.getElementById("p").textContent=p;
+document.getElementById("c").innerHTML=c.map(w=>`<i>${w}</i>`).join("");
 </script></body></html>

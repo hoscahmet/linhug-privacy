@@ -2,11 +2,11 @@
 
 Static site for LinHug, served by GitHub Pages from `main`.
 
-The HTML pages are **generated**. Do not edit `index.html`, `tr/`, `how-to-play/`, `privacy.html`, `terms.html`, `404.html`, `sitemap.xml` or `robots.txt` by hand. Edit the sources and rebuild:
+The HTML pages are **generated**. Do not edit `index.html`, `how-to-play/`, `tr/`, `es/`, `pt/`, `id/`, `hi/`, `privacy.html`, `terms.html`, `404.html`, `sitemap.xml` or `robots.txt` by hand. Edit the sources and rebuild:
 
 | What | Where |
 | --- | --- |
-| Page copy (EN + TR), FAQ, game rules | `scripts/content.mjs` |
+| Page copy (EN, TR, ES, PT, ID, HI), FAQ, game rules | `scripts/content.mjs` |
 | Page templates, word-list pages, sitemap | `scripts/build.mjs` |
 | Privacy / Terms text | `src/pages/privacy.html`, `src/pages/terms.html` |
 | Styles (dark + light theme) | `assets/site.css` |
@@ -18,6 +18,8 @@ node scripts/build.mjs        # regenerate every page, sitemap.xml, robots.txt, 
 ./scripts/make-og.sh          # re-render the share images (needs Google Chrome)
 python3 -m http.server 8765   # preview at http://127.0.0.1:8765
 ```
+
+Languages follow the app's UI languages (`LANGS` in `scripts/content.mjs`). English is the default; on English pages a visitor whose browser prefers another supported language is redirected once, unless they picked one in the language menu. Privacy and Terms stay English-only, and the word lists are Turkish-only.
 
 To refresh the word lists after the game dictionary changes, copy the new `tr.json` over `src/data/tr-words.json` and rebuild.
 
