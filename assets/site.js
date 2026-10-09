@@ -51,27 +51,42 @@
   });
 
   // Forest scenes (light theme): sections tagged data-scene pick the backdrop; pages without tags
-  // move through the three scenes by scroll progress. A small parallax shift follows the scroll.
+  // move through the scenes by scroll progress. While a scene is active the camera slowly pushes
+  // in toward its landmark (the library towers, the gates, the castle, the LINHUG stones) as you scroll through it.
   const scenes = [...document.querySelectorAll(".forest-scenes .scene")];
   const sceneSections = [...document.querySelectorAll("[data-scene]")];
   const motionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ZOOM_FROM = 1.04;
+  const ZOOM_TO = 1.38;
   let sceneFrame = 0;
   const updateScene = () => {
     sceneFrame = 0;
     if (root.dataset.theme !== "light" || !scenes.length) return;
-    const probe = window.innerHeight * 0.45;
-    let index = 0;
+    const probe = window.scrollY + window.innerHeight * 0.45;
+    const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    // Where each scene starts in the document; it ends where the next one starts.
+    let starts;
     if (sceneSections.length) {
+      starts = scenes.map((_, i) => (i ? Infinity : 0));
       for (const section of sceneSections) {
-        if (section.getBoundingClientRect().top <= probe) index = Number(section.dataset.scene) - 1;
+        const index = Number(section.dataset.scene) - 1;
+        const top = section.getBoundingClientRect().top + window.scrollY;
+        if (index > 0 && top < starts[index]) starts[index] = top;
       }
     } else {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? window.scrollY / max : 0;
-      index = progress < 0.3 ? 0 : progress < 0.7 ? 1 : 2;
+      starts = scenes.map((_, i) => (max * i) / scenes.length + window.innerHeight * 0.45);
+      starts[0] = 0;
     }
-    scenes.forEach((scene, i) => scene.classList.toggle("is-active", i === index));
-    if (motionOk) root.style.setProperty("--scene-shift", String(Math.round(Math.min(window.scrollY, 4000) * -0.012)));
+    const docEnd = document.documentElement.scrollHeight;
+    let index = 0;
+    for (let i = 1; i < starts.length; i++) if (starts[i] <= probe) index = i;
+    const end = starts.slice(index + 1).find((at) => at !== Infinity) ?? docEnd;
+    const progress = Math.min(1, Math.max(0, (probe - starts[index]) / Math.max(1, end - starts[index])));
+    scenes.forEach((scene, i) => {
+      scene.classList.toggle("is-active", i === index);
+      const zoom = !motionOk ? 1 : i === index ? ZOOM_FROM + (ZOOM_TO - ZOOM_FROM) * progress : i < index ? ZOOM_TO : ZOOM_FROM;
+      scene.style.setProperty("--zoom", zoom.toFixed(4));
+    });
   };
   const queueScene = () => { if (!sceneFrame) sceneFrame = requestAnimationFrame(updateScene); };
   window.addEventListener("scroll", queueScene, { passive: true });

@@ -118,7 +118,7 @@ function layout({ lang, path, title, description, body, alternates, ld = [], noi
   </head>
   <body>
     <a class="skip-link" href="#main">${esc(t.skip)}</a>
-    <div class="game-backdrop" aria-hidden="true"><div class="forest-scenes"><span class="scene scene-1 is-active"></span><span class="scene scene-2"></span><span class="scene scene-3"></span></div></div>
+    <div class="game-backdrop" aria-hidden="true"><div class="forest-scenes"><span class="scene scene-1 is-active"></span><span class="scene scene-2"></span><span class="scene scene-3"></span><span class="scene scene-4"></span></div></div>
     <div class="word-sky" aria-hidden="true">
       ${sky}
     </div>
@@ -269,7 +269,7 @@ function homePage(lang) {
         </div>
       </section>
 
-      <section id="${anchors.features}" data-scene="2" aria-labelledby="features-title">
+      <section id="${anchors.features}" data-scene="3" aria-labelledby="features-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="features-title">${esc(h.featuresTitle)}</h2>
@@ -338,7 +338,7 @@ ${isTr ? `
         </div>
       </section>
 ` : ""}
-      <section id="${anchors.faq}" data-scene="3" aria-labelledby="faq-title">
+      <section id="${anchors.faq}" data-scene="4" aria-labelledby="faq-title">
         <div class="shell">
           <div class="section-heading">
             <h2 id="faq-title">${esc(h.faqTitle)}</h2>
@@ -349,7 +349,7 @@ ${isTr ? `
         </div>
       </section>
 
-      <section class="shell cta" id="download" data-scene="3" aria-labelledby="cta-title">
+      <section class="shell cta" id="download" data-scene="4" aria-labelledby="cta-title">
         <img class="cta-icon" src="/assets/media/icon-192.webp" alt="${esc(h.ctaIcon)}" width="94" height="94" loading="lazy" />
         <h2 id="cta-title">${esc(h.ctaTitle)}</h2>
         <p>${esc(h.ctaText)}</p>
