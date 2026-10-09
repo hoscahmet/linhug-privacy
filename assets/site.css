@@ -112,7 +112,7 @@ img, video { max-width: 100%; }
   background: var(--backdrop-image) center top / cover no-repeat;
   filter: saturate(1.12) brightness(1.06);
 }
-/* Light theme: three forest scenes from the intro cross-fade as the page scrolls (site.js marks the active one). */
+/* Light theme: two forest scenes from the intro cross-fade as the page scrolls (site.js marks the active one). */
 .forest-scenes { display: none; }
 :root[data-theme="light"] .forest-scenes { display: block; position: absolute; inset: 0; z-index: 0; overflow: hidden; }
 .scene {
@@ -126,18 +126,16 @@ img, video { max-width: 100%; }
   will-change: opacity, transform;
 }
 .scene.is-active { opacity: 1; }
-/* --focus is the landmark each scene zooms toward: the library towers, the castle, the LINHUG stones.
+/* --focus is the landmark each scene zooms toward: the library towers, then the LINHUG stones.
    Images load only once site.js marks a scene .is-loaded (the active one and the next). Portrait phones get
    pre-cropped slices (-m) that keep the full resolution of the part they actually show. */
 .scene.is-loaded { background-image: var(--img); }
 .scene-1 { --img: url("/assets/media/forest-scene-1.webp"); background-position: 58% 40%; --focus: 58% 30%; }
-.scene-2 { --img: url("/assets/media/forest-scene-2.webp"); background-position: 32% 45%; --focus: 30% 38%; }
-.scene-3 { --img: url("/assets/media/forest-scene-3.webp"); background-position: 50% 40%; --focus: 50% 45%; }
+.scene-2 { --img: url("/assets/media/forest-scene-2.webp"); background-position: 50% 40%; --focus: 50% 45%; }
 @media (max-width: 700px) and (orientation: portrait) {
   .scene { background-position: 50% 40%; }
   .scene-1 { --img: url("/assets/media/forest-scene-1-m.webp"); --focus: 50% 30%; }
-  .scene-2 { --img: url("/assets/media/forest-scene-2-m.webp"); --focus: 50% 38%; }
-  .scene-3 { --img: url("/assets/media/forest-scene-3-m.webp"); --focus: 50% 45%; }
+  .scene-2 { --img: url("/assets/media/forest-scene-2-m.webp"); --focus: 50% 45%; }
 }
 /* Data saver or low-memory devices: keep the scenes, drop the continuous animations. */
 :root.lite .game-backdrop::before, :root.lite .sky-word { animation: none !important; }
@@ -841,4 +839,15 @@ h2 { margin: 0; font-size: clamp(34px, 5vw, 56px); line-height: 1.04; letter-spa
   html { scroll-behavior: auto; }
   .sky-word, .orbit, .hero-reel, .kicker::before, .screen-card, .game-backdrop::before { animation: none !important; }
   .scene { transition: opacity 600ms ease; transform: none !important; }
+}
+
+/* Themed cursors for mouse users: a rocket at night, a sword in the forest. The hotspot is the nose / tip.
+   Links and buttons get the "active" variant (bigger flame, glowing blade); text fields and the carousel keep
+   their usual cursors. Each rule falls back to the system cursor if the image cannot load. */
+@media (hover: hover) and (pointer: fine) {
+  :root { cursor: url("/assets/cursors/rocket.svg") 4 4, auto; }
+  :root :is(a, button, summary, label, select, [role="button"], .icon-button, .lang-switch, .faq summary) { cursor: url("/assets/cursors/rocket-hover.svg") 4 4, pointer; }
+  :root[data-theme="light"] { cursor: url("/assets/cursors/sword.svg") 3 3, auto; }
+  :root[data-theme="light"] :is(a, button, summary, label, select, [role="button"], .icon-button, .lang-switch, .faq summary) { cursor: url("/assets/cursors/sword-hover.svg") 3 3, pointer; }
+  :root :is(input, textarea, [contenteditable="true"]) { cursor: text; }
 }

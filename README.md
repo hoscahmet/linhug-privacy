@@ -19,7 +19,7 @@ node scripts/build.mjs        # regenerate every page, sitemap.xml, robots.txt, 
 python3 -m http.server 8765   # preview at http://127.0.0.1:8765
 ```
 
-The light theme uses the forest intro from the app: `assets/media/linhug-walk.mp4` (hero video, re-encoded from `linhug-mobile/assets/videos/daily-intro-walk.mp4`) and `forest-scene-1..3.webp`, which cross-fade behind the page as sections tagged `data-scene` scroll into view; each scene slowly zooms toward its landmark (`--focus` in site.css) while it is active.
+The light theme uses the forest intro from the app: `assets/media/linhug-walk.mp4` (hero video, re-encoded from `linhug-mobile/assets/videos/daily-intro-walk.mp4`) and `forest-scene-1..2.webp`, which cross-fade behind the page as sections tagged `data-scene` scroll into view; each scene slowly zooms toward its landmark (`--focus` in site.css) while it is active.
 
 Languages follow the app's UI languages (`LANGS` in `scripts/content.mjs`). English is the default; on English pages a visitor whose browser prefers another supported language is redirected once, unless they picked one in the language menu. Privacy and Terms stay English-only, and the word lists are Turkish-only.
 
